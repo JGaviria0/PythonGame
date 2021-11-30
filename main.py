@@ -6,7 +6,7 @@ def main():
 
     players=pygame.sprite.Group()
 
-    player1=Player(character['Skeleton_Enemy'],'Right','Idle')
+    player1=Player(character['Green_Enemy'],'Right','Idle')
     players.add(player1)
     reloj=pygame.time.Clock()
     fin=False
