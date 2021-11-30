@@ -5,7 +5,7 @@ def main():
     pygame.init()
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
 
-    # Group Of Players
+    # Group Of Players 
     players=pygame.sprite.Group()
 
     # Group of Enemies
@@ -17,7 +17,7 @@ def main():
     player1=Player(character['Principal_Character'],'Right','Idle')
     players.add(player1)
     
-    enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10, True,15)
+    enemy1=Enemy(character['Skeleton_Enemy'], 'Right', 'Attack', 0, 0, 10, True,15,200,200,'Skeleton_Enemy')
     enemies.add(enemy1)
 
 
@@ -81,18 +81,46 @@ def main():
                 player1.velx=0
                 player1.vely=0
                 
-        # Bullets Generation
+        
 
         for enemy in enemies:
-            if enemy.timeBetweenShoot ==0:
-                enemy.shooting=True
 
-            if enemy.shooting and enemy.action=='Attack':
-                pos=[enemy.rect.x + 25 , enemy.rect.bottom-50]
-                bullet=Bullet(pos,5,0) # WE CAN CONTROL THE DIRECTON WITH THE SECOND PARAMETER
-                bullets.add(bullet)
-                enemy.shooting=False
-                enemy.timeBetweenShoot=19 #WE CAN CONTROL THIS
+            # Green Enemy
+            if enemy.name=='Green_Enemy':
+                if enemy.actualPositionOfAnimation ==10 or enemy.actualPositionOfAnimation==15:
+                    enemy.isAttacking=True
+
+                if enemy.isAttacking and enemy.action=='Attack':
+                    velxBullet =0
+                    velyBullet=0
+                    #Right
+                    if enemy.direction=="Right":
+                        pos=[enemy.rect.x + 50 , enemy.rect.bottom-35]
+                        velxBullet=5
+
+                    #Lef
+                    if enemy.direction=="Left":
+                        pos=[enemy.rect.x  , enemy.rect.bottom-35]
+                        velxBullet=-5
+                        
+                    # Up
+                    if enemy.direction=="Up":
+                        pos=[enemy.rect.x + 35 , enemy.rect.bottom-50]
+                        velyBullet=-5
+
+                    # Down
+                    if enemy.direction=="Down":
+                        pos=[enemy.rect.x + 35 , enemy.rect.bottom-50]
+                        velyBullet=5
+
+                    bullet=Bullet(pos,velxBullet,velyBullet) # WE CAN CONTROL THE DIRECTON WITH THE SECOND PARAMETER
+                    bullets.add(bullet)
+                    enemy.isAttacking=False
+
+            # Skeleton Enemy
+            if enemy.name == "Skeleton_Enemy":
+                pass
+
 
 
 

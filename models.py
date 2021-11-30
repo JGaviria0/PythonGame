@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self,animations,direction,action,velx,vely,healt,shooting,timeBetweenShoot):
+    def __init__(self,animations,direction,action,velx,vely,healt,isAttacking,time,posX,posY,name):
         pygame.sprite.Sprite.__init__(self)
         self.animations=animations
         self.action=action
@@ -70,22 +70,22 @@ class Enemy(pygame.sprite.Sprite):
         self.direction=direction
         self.image = animations[direction][action][0]
         self.rect = self.image.get_rect()
-        self.rect.x=100
-        self.rect.y=ALTO - 70
+        self.rect.x=posX
+        self.rect.y=posY
         self.velx=velx
         self.vely=vely
         self.healt=healt
-        self.shooting=shooting
-        self.timeBetweenShoot=timeBetweenShoot
-        
+        self.isAttacking=isAttacking
+        self.time=time
+        self.name=name
 
     def update(self):
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
 
-        if self.timeBetweenShoot>0:
-            self.timeBetweenShoot-=1
+        if self.time>0:
+            self.time-=1
         self.rect.x += self.velx
         if self.rect.right > ANCHO:
             self.rect.right = ANCHO
