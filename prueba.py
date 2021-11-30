@@ -85,6 +85,12 @@ class Bloque(pygame.sprite.Sprite):
         self.rect.y=pos[1]
 
 def parser(initialX, initialY):
+
+    if initialX > 0:
+        initialX = 0
+
+    if initialY > 0:
+        initialY = 0
     grass = pygame.image.load('img/Grass.png')
     dirtBrown = pygame.image.load('img/Dirt.png')
     treeH = pygame.image.load('img/Tree.png')
@@ -94,6 +100,7 @@ def parser(initialX, initialY):
     generator1 = pygame.image.load('img/Generator1.png')
     wall1 = pygame.image.load('img/Wall1.png')
     castle = pygame.image.load('img/castle.png')
+    pantalla.blit(grass, (0, 0))
 
     treesPosition = []
     stonePosition = []
@@ -175,7 +182,7 @@ if __name__=='__main__':
     j1=Jugador()
     jugadores.add(j1)
 
-    b1=Bloque ([50,80], [1400,300])
+    b1=Bloque ([50,50], [1400,300])
     bloques.add(b1)
     j1.bloques=bloques
 
@@ -231,7 +238,7 @@ if __name__=='__main__':
                 f_posx -= f_velx
 
                 for b in bloques:
-                    b.rect.x += f_velx
+                    b.rect.x -= f_velx
 
         if j1.rect.bottom >= lim_movAba:
             j1.rect.bottom = lim_movAba
@@ -249,7 +256,7 @@ if __name__=='__main__':
                 f_posy -= f_vely
 
                 for b in bloques:
-                    b.rect.y += f_vely
+                    b.rect.y -= f_vely
 
      
     pygame.quit()
