@@ -3,12 +3,10 @@ from models import *
 def main():
     pygame.init()
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
-
     players=pygame.sprite.Group()
-
-    # player1=Player(character['Principal_Character'],'Right','Idle')
-    player1=Player(character['Skeleton_Enemy'],'Right','Idle')
-    # player1=Player(character['Green_Enemy'],'Right','Idle')
+    # player1=Player(character['Principal_Character'],'Right'dd,'Idle')
+    # player1=Player(character['Skeleton_Enemy'],'Right','Idle')
+    player1=Player(character['Green_Enemy'],'Right','Idle')
 
     players.add(player1)
     reloj=pygame.time.Clock()
@@ -23,7 +21,7 @@ def main():
 
                 # Right Direction
                 if event.key == pygame.K_d:
-                    if player1.direction!='Right':
+                    if player1.direction!='Right' or player1.action=='Attack':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Right'
                     player1.action='Walk'
@@ -31,7 +29,7 @@ def main():
                 
                  # Left Direction
                 if event.key == pygame.K_a:
-                    if player1.direction!='Left':
+                    if player1.direction!='Left' or player1.action=='Attack':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Left'
                     player1.action='Walk'
@@ -39,7 +37,7 @@ def main():
                 
                 # Up Direction
                 if event.key == pygame.K_w:
-                    if player1.direction!='Up':
+                    if player1.direction!='Up' or player1.action=='Attack':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Up'
                     player1.action='Walk'
@@ -47,7 +45,7 @@ def main():
 
                 # Down Direction
                 if event.key == pygame.K_s:
-                    if player1.direction!='Down':
+                    if player1.direction!='Down' or player1.action=='Attack':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Down'
                     player1.action='Walk'
