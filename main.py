@@ -147,7 +147,7 @@ if __name__=='__main__':
     blocks=pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Right','Idle',50,100)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,100)
     players.add(player1)
 
 

@@ -40,8 +40,9 @@ class Player(pygame.sprite.Sprite):
         self.direction=direction
         self.image = animations[direction][action][0]
         self.rect = self.image.get_rect()
-        self.rect.x=posX
         self.rect.y=posY
+        self.rect.x=posX
+        # self.rect = pygame.Rect(posX, posY, 20, 10)
         self.velx=0
         self.vely=0
         self.puntos=0
@@ -50,6 +51,7 @@ class Player(pygame.sprite.Sprite):
         
 
     def update(self):
+        
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
@@ -68,11 +70,13 @@ class Player(pygame.sprite.Sprite):
         for b in ls_col:
 
             if self.velx >0:
+                # Derecha
                 if self.rect.right > b.rect.left:
                     self.rect.right = b.rect.left
                     self.velx= 0
 
             else:
+                # Izquierda
                 if self.rect.left < b.rect.right:
                     self.rect.left = b.rect.right
                     self.velx=0
@@ -95,11 +99,13 @@ class Player(pygame.sprite.Sprite):
                 continue
 
             if self.vely > 0:
+                # Debajo
                 if self.rect.bottom > b.rect.top:
                     self.rect.bottom = b.rect.top
                     self.vely=0
                     
             else:
+                # Arriba
                 if self.rect.top < b.rect.bottom:
                     self.rect.top = b.rect.bottom
                     self.vely=0
