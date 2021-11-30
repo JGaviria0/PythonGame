@@ -147,7 +147,7 @@ if __name__=='__main__':
     blocks=pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Right','Idle',100,50)
+    player1=Player(character['Principal_Character'],'Right','Idle',50,100)
     players.add(player1)
 
 
@@ -277,20 +277,6 @@ if __name__=='__main__':
 
 
 
-        players.update()
-        bullets.update()
-        enemies.update()
-
-        pantalla.fill(NEGRO)
-        parserMap(f_posx,f_posy)
-
-        bullets.draw(pantalla)
-        enemies.draw(pantalla)
-        players.draw(pantalla)    
-        blocks.draw(pantalla) 
-
-        pygame.display.flip()
-        reloj.tick(40)
         if player1.rect.right > lim_movDer:
             player1.rect.right = lim_movDer
 
@@ -326,6 +312,20 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.y -= f_vely
+        players.update()
+        bullets.update()
+        enemies.update()
+
+        pantalla.fill(NEGRO)
+        parserMap(f_posx,f_posy)
+
+        bullets.draw(pantalla)
+        enemies.draw(pantalla)
+        players.draw(pantalla)    
+        blocks.draw(pantalla) 
+
+        pygame.display.flip()
+        reloj.tick(20)
 
      
     pygame.quit()

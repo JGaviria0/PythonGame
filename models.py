@@ -54,8 +54,18 @@ class Player(pygame.sprite.Sprite):
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
         
-        listOfCollisionableBlocks=pygame.sprite.spritecollide(self, self.blocks, False) 
-        for b in listOfCollisionableBlocks:
+        self.rect.x += self.velx
+        if self.rect.right > ANCHO:
+            self.rect.right = ANCHO
+            self.velx=0
+
+        if self.rect.left <= 0:
+            self.rect.left = 0
+            self.velx=0
+
+        # Collider horizontal whit blocks
+        ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
+        for b in ls_col:
 
             if self.velx >0:
                 if self.rect.right > b.rect.left:
@@ -66,14 +76,7 @@ class Player(pygame.sprite.Sprite):
                 if self.rect.left < b.rect.right:
                     self.rect.left = b.rect.right
                     self.velx=0
-        self.rect.x += self.velx
-        if self.rect.right > ANCHO:
-            self.rect.right = ANCHO
-            self.velx=0
 
-        if self.rect.left <= 0:
-            self.rect.left = 0
-            self.velx=0
 
         self.rect.y += self.vely
         if self.rect.bottom > ALTO:
@@ -83,6 +86,23 @@ class Player(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.rect.top = 0
             self.vely=0
+
+        # Collider Vertical with blocks
+        ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
+        for b in ls_col:
+
+            if self.vely == 0:
+                continue
+
+            if self.vely > 0:
+                if self.rect.bottom > b.rect.top:
+                    self.rect.bottom = b.rect.top
+                    self.vely=0
+                    
+            else:
+                if self.rect.top < b.rect.bottom:
+                    self.rect.top = b.rect.bottom
+                    self.vely=0
 
 class Enemy(pygame.sprite.Sprite):
 
