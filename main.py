@@ -13,7 +13,7 @@ def main():
     player1=Player(character['Principal_Character'],'Right','Idle')
     players.add(player1)
     
-    enemy1= Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10)
+    enemy1= Enemy(character['Green_Enemy'], 'Up', 'Walk', 0, -3, 10)
     enemies.add(enemy1)
 
 
