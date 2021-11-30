@@ -41,6 +41,16 @@ def main():
                     player1.direction='Down'
                     player1.action='Walk'
                     player1.vely = 5
+                if event.key == pygame.K_k:
+                    if player1.action!='Attack':
+                        player1.action='Attack'
+                        player1.actualPositionOfAnimation=0
+                    player1.velx=0
+                    player1.vely=0
+
+
+
+                
             if event.type == pygame.KEYUP:
                 if player1.action!='Idle':
                     player1.action='Idle'
