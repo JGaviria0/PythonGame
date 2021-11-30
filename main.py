@@ -20,32 +20,33 @@ def main():
                 player1.vely=0
 
                 # Right Direction
-                if event.key == pygame.K_d:
-                    if player1.direction!='Right' or player1.action=='Attack':
+                if event.key == pygame.K_d and player1.action!='Attack':
+                    if player1.direction!='Right':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Right'
                     player1.action='Walk'
                     player1.velx = 5
                 
                  # Left Direction
-                if event.key == pygame.K_a:
-                    if player1.direction!='Left' or player1.action=='Attack':
+                if event.key == pygame.K_a and player1.action!='Attack':
+                    if player1.direction!='Left':
                         player1.actualPositionOfAnimation=0
+                    
                     player1.direction='Left'
                     player1.action='Walk'
                     player1.velx = -5
                 
                 # Up Direction
-                if event.key == pygame.K_w:
-                    if player1.direction!='Up' or player1.action=='Attack':
+                if event.key == pygame.K_w and player1.action!='Attack':
+                    if player1.direction!='Up':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Up'
                     player1.action='Walk'
                     player1.vely = -5
 
                 # Down Direction
-                if event.key == pygame.K_s:
-                    if player1.direction!='Down' or player1.action=='Attack':
+                if event.key == pygame.K_s and player1.action!='Attack':
+                    if player1.direction!='Down':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Down'
                     player1.action='Walk'

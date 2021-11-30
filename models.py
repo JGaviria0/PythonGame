@@ -36,8 +36,6 @@ class Player(pygame.sprite.Sprite):
         
 
     def update(self):
-        print(self.direction,self.action)
-        
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
