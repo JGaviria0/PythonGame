@@ -11,19 +11,22 @@ def parser():
     pixelCol = 0
     grass = pygame.image.load('img/Grass.png')
     dirtBrown = pygame.image.load('img/Dirt.png')
-    treeH = pygame.image.load('img/Arbol.png')
+    treeH = pygame.image.load('img/Tree.png')
     stone1 = pygame.image.load('img/Stone1.png')
     stone2 = pygame.image.load('img/Stone2.png')
     generator1 = pygame.image.load('img/Generator1.png')
+    generator1 = pygame.image.load('img/Generator1.png')
+    wall1 = pygame.image.load('img/Wall1.png')
 
     treesPosition = []
     stonePosition = []
     stone2Position = []
     generator1Position = []
+    wall1Position = []
 
     
 
-    with open('Mapa/map1.csv') as csv_file:
+    with open('map/map1.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
         for row in csv_reader:
             for col in row:
@@ -31,6 +34,9 @@ def parser():
                     pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "2":
                     pantalla.blit(dirtBrown, (pixelRow, pixelCol))
+                if col == "3":
+                    wall1Position.append([pixelRow, pixelCol])
+                    pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "4":
                     pantalla.blit(grass, (pixelRow, pixelCol))
                     treesPosition.append([pixelRow, pixelCol])
@@ -61,6 +67,9 @@ def parser():
         
         for eachtree in generator1Position:
             pantalla.blit(generator1, (eachtree[0], eachtree[1]))
+        
+        for eachtree in wall1Position:
+            pantalla.blit(wall1, (eachtree[0], eachtree[1]))
                     
 
 
