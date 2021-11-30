@@ -5,14 +5,14 @@ def getSprites(direccion):
     n=0
     while True:
         try:
-            print(f'{direccion}/{n}.png')
+            print('Loading : ',f'{direccion}/{n}.png')
             sprites.append(pygame.image.load(f'{direccion}/{n}.png'))
             n+=1
         except FileNotFoundError:
             return sprites
 
 character = {
-    'Pricipal_Character': {
+    'Principal_Character': {
         'Down': {
             'Attack':getSprites('Principal_Character/Down/Attack1'), 
             'Death':getSprites('Principal_Character/Down/Death'),
@@ -21,19 +21,19 @@ character = {
             'Walk':getSprites('Principal_Character/Down/Walk') },
 
         'Left': {
-            'Attack':getSprites('Principal_Character/Left/Attack'), 
+            'Attack':getSprites('Principal_Character/Left/Attack1'), 
             'Death':getSprites('Principal_Character/Left/Death'),
             'Hurt':getSprites('Principal_Character/Left/Hurt'),
             'Idle':getSprites('Principal_Character/Left/Idle'),
             'Walk':getSprites('Principal_Character/Left/Walk') },
         'Right': {
-            'Attack':getSprites('Principal_Character/Right/Attack'), 
+            'Attack':getSprites('Principal_Character/Right/Attack1'), 
             'Death':getSprites('Principal_Character/Right/Death'),
             'Hurt':getSprites('Principal_Character/Right/Hurt'),
             'Idle':getSprites('Principal_Character/Right/Idle'),
             'Walk':getSprites('Principal_Character/Right/Walk') },
         'Up': {
-            'Attack':getSprites('Principal_Character/Up/Attack'), 
+            'Attack':getSprites('Principal_Character/Up/Attack1'), 
             'Death':getSprites('Principal_Character/Up/Death'),
             'Hurt':getSprites('Principal_Character/Up/Hurt'),
             'Idle':getSprites('Principal_Character/Up/Idle'),
