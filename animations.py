@@ -1,12 +1,15 @@
 import pygame
 
-def getSprites(direccion):
+def getSprites(direccion,scale=1):
     sprites = []
     n=0
     while True:
         try:
+            actualSprite=pygame.image.load(f'{direccion}/{n}.png')
+            size = actualSprite.get_size()
+            scaleSprite = pygame.transform.scale(actualSprite, (int(size[0]*scale), int(size[1]*scale)))
             print('Loading : ',f'{direccion}/{n}.png')
-            sprites.append(pygame.image.load(f'{direccion}/{n}.png'))
+            sprites.append(scaleSprite)
             n+=1
         except FileNotFoundError:
             return sprites
