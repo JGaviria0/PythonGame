@@ -35,6 +35,7 @@ def main():
                 if event.key == pygame.K_d and player1.action!='Attack':
                     if player1.direction!='Right':
                         player1.actualPositionOfAnimation=0
+                    
                     player1.direction='Right'
                     player1.action='Walk'
                     player1.velx = 5
