@@ -1,4 +1,5 @@
 from models import *
+from random import randint
 
 def main():
     pygame.init()
@@ -9,11 +10,14 @@ def main():
 
     # Group of Enemies
     enemies=pygame.sprite.Group()
+
+    # Group of bullets 
+    bullets = pygame.sprite.Group()
     
     player1=Player(character['Principal_Character'],'Right','Idle')
     players.add(player1)
     
-    enemy1= Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10)
+    enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10, True,15)
     enemies.add(enemy1)
 
 
@@ -76,6 +80,20 @@ def main():
                 player1.velx=0
                 player1.vely=0
                 
+        # Bullets Generation
+
+        for enemy in enemies:
+            if enemy.timeBetweenShoot ==0:
+                enemy.shooting=True
+
+            if enemy.shooting and enemy.action=='Attack':
+                pos=[enemy.rect.x + 25 , enemy.rect.bottom-50]
+                bullet=Bullet(pos,5,0) # WE CAN CONTROL THE DIRECTON WITH THE SECOND PARAMETER
+                bullets.add(bullet)
+                enemy.shooting=False
+                enemy.timeBetweenShoot=19 #WE CAN CONTROL THIS
+
+
 
         # Check movement complete for the atack
 
@@ -89,6 +107,9 @@ def main():
 
 
         pantalla.fill(NEGRO)
+
+        bullets.update()
+        bullets.draw(pantalla)
 
         enemies.update()
         enemies.draw(pantalla)

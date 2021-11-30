@@ -1,18 +1,20 @@
-from animations import *
-ANCHO=1200
-ALTO=600
+from utilities import *
+class Bullet(pygame.sprite.Sprite):
 
-VERDE=[0,255,0]
-ROJO=[255,0,0]
-AZUL=[0,0,255]
-BLANCO=[255,255,255]
-NEGRO=[0,0,0]
-AMARILLO=[255, 140, 0]
-NARANJA=[255, 69, 0]
-PURPURA=[128, 0, 128]
-ROSADO=[255, 192, 203]
-ANCHO=1200
-ALTO=600
+    def __init__(self, pos,velx,vely, cl=BLANCO):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([5,5])
+        self.image.fill(cl)
+        self.rect = self.image.get_rect()
+        self.rect.x=pos[0]
+        self.rect.y=pos[1]       
+        self.vely= vely
+        self.velx=velx
+
+    def update(self):
+        self.rect.y += self.vely
+        self.rect.x += self.velx
+
 
 
 
@@ -60,7 +62,7 @@ class Player(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self,animations,direction,action,velx,vely,healt):
+    def __init__(self,animations,direction,action,velx,vely,healt,shooting,timeBetweenShoot):
         pygame.sprite.Sprite.__init__(self)
         self.animations=animations
         self.action=action
@@ -72,14 +74,18 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y=ALTO - 70
         self.velx=velx
         self.vely=vely
-        self.salud=healt
+        self.healt=healt
+        self.shooting=shooting
+        self.timeBetweenShoot=timeBetweenShoot
         
 
     def update(self):
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
-        
+
+        if self.timeBetweenShoot>0:
+            self.timeBetweenShoot-=1
         self.rect.x += self.velx
         if self.rect.right > ANCHO:
             self.rect.right = ANCHO
