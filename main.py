@@ -3,12 +3,20 @@ from models import *
 def main():
     pygame.init()
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
-    players=pygame.sprite.Group()
-    # player1=Player(character['Principal_Character'],'Right'dd,'Idle')
-    # player1=Player(character['Skeleton_Enemy'],'Right','Idle')
-    player1=Player(character['Green_Enemy'],'Right','Idle')
 
+    # Group Of Players
+    players=pygame.sprite.Group()
+
+    # Group of Enemies
+    enemies=pygame.sprite.Group()
+    
+    player1=Player(character['Principal_Character'],'Right','Idle')
     players.add(player1)
+    
+    enemy1= Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10)
+    enemies.add(enemy1)
+
+
     reloj=pygame.time.Clock()
     fin=False
     while not fin:
@@ -82,8 +90,13 @@ def main():
 
 
         pantalla.fill(NEGRO)
+
+        enemies.update()
+        enemies.draw(pantalla)
+
         players.update()
         players.draw(pantalla)
+
         pygame.display.flip()
         reloj.tick(20)
         
