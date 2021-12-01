@@ -35,10 +35,6 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y += self.vely
         self.rect.x += self.velx
 
-
-
-
-
 class Player(pygame.sprite.Sprite):
 
     def __init__(self,animations,direction,action,posX,posY):
@@ -82,6 +78,9 @@ class Player(pygame.sprite.Sprite):
         ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
         for b in ls_col:
             print('COLISION  HORIZONTAL')
+            
+            if self.velx == 0:
+                continue
 
             if self.velx >0:
                 # Derecha
@@ -97,10 +96,10 @@ class Player(pygame.sprite.Sprite):
                     self.rect.left = b.rect.right-20
                     self.velx=0
         
-        self.rigidBody.rect.y+=self.vely #This is new
+        self.rigidBody.rect.y+=self.vely 
         self.rect.y += self.vely
         
-        if self.rigidBody.rect.bottom > ALTO: #This is new
+        if self.rigidBody.rect.bottom > ALTO: 
             self.rigidBody.rect.bottom = ALTO
             self.rect.bottom = ALTO-10
             self.vely=0
@@ -110,11 +109,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = -10
             self.vely=0
 
-        ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
+        ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False) 
         for b in ls_col:
             print('COLISION VERTICAL')
-            if self.vely==0:
+            if self.vely == 0:
                 continue
+
             if self.vely > 0:
                 # Debajo
                 if self.rigidBody.rect.bottom >= b.rect.top:
@@ -124,10 +124,14 @@ class Player(pygame.sprite.Sprite):
                     
             else:
                 # Arriba
-                if self.rigidBody.rect.top < b.rect.bottom:
+                if self.rigidBody.rect.top <= b.rect.bottom:
                     self.rigidBody.rect.top = b.rect.bottom
                     self.rect.top = b.rect.bottom-10
                     self.vely=0
+
+
+        self.hitbox = pygame.Rect(self.rect.x + 20, self.rect.y+13, 30, 45) 
+
 
 class Enemy(pygame.sprite.Sprite):
 

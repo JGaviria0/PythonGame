@@ -154,9 +154,6 @@ if __name__=='__main__':
     enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10, True,15,50,100,'Green_Enemy')
     enemies.add(enemy1)
 
-    # b1=Block ([50,50], [1400,300])
-    # blocks.add(b1)
-
     blocks = parserColi(0,0)
     player1.blocks= blocks
 
@@ -225,10 +222,6 @@ if __name__=='__main__':
                 player1.velx=0
                 player1.vely=0
 
-
-
-
-
         for enemy in enemies:
 
             # Green Enemy
@@ -289,7 +282,7 @@ if __name__=='__main__':
                     b.rect.x += f_velx
 
         # Left
-        if player1.rigidBody.rect.left <= lim_movIzq:
+        if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
             player1.rect.left = lim_movIzq-20
 
@@ -300,7 +293,7 @@ if __name__=='__main__':
                     b.rect.x -= f_velx
 
         # Down
-        if player1.rigidBody.rect.bottom >= lim_movAba:
+        if player1.rigidBody.rect.bottom > lim_movAba:
             player1.rigidBody.rect.bottom = lim_movAba
             player1.rect.bottom = lim_movAba+10
 
@@ -332,9 +325,13 @@ if __name__=='__main__':
         pygame.draw.rect(pantalla, ROJO,player1.rect,1)
         pygame.draw.rect(pantalla, VERDE,player1.rigidBody.rect,1)
         bullets.draw(pantalla)
-        enemies.draw(pantalla)
-        players.draw(pantalla)    
+        # enemies.draw(pantalla)
+        players.draw(pantalla)
+        pygame.draw.rect(pantalla, (255,0,0), player1.hitbox,2)   
         blocks.draw(pantalla) 
+        for i in blocks:
+            pygame.draw.rect(pantalla, (255,0,0), i.rect,2)   
+
 
         pygame.display.flip()
         reloj.tick(20)
