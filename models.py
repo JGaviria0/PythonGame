@@ -160,19 +160,19 @@ class Enemy(pygame.sprite.Sprite):
         if self.time>0:
             self.time-=1
         self.rect.x += self.velx
-        if self.rect.right > ANCHO:
-            self.rect.right = ANCHO
-            self.velx=0
+        # if self.rect.right > ANCHO:
+        #     self.rect.right = ANCHO
+        #     self.velx=0
 
-        if self.rect.left <= 0:
-            self.rect.left = 0
-            self.velx=0
+        # if self.rect.left <= 0:
+        #     self.rect.left = 0
+        #     self.velx=0
 
-        self.rect.y += self.vely
-        if self.rect.bottom > ALTO:
-            self.rect.bottom = ALTO
-            self.vely=0
+        # self.rect.y += self.vely
+        # if self.rect.bottom > ALTO:
+        #     self.rect.bottom = ALTO
+        #     self.vely=0
 
-        if self.rect.top < 0:
-            self.rect.top = 0
-            self.vely=0
+        # if self.rect.top < 0:
+        #     self.rect.top = 0
+        #     self.vely=0

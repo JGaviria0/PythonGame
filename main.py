@@ -347,6 +347,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.x += f_velx
+                
+                for e in enemies:
+                    e.rect.x += f_velx
 
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
@@ -358,6 +361,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.x -= f_velx
+                
+                for e in enemies:
+                    e.rect.x -= f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -369,6 +375,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.y += f_vely
+                
+                for e in enemies:
+                    e.rect.y += f_vely
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -379,6 +388,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.y -= f_vely
+                
+                for e in enemies:
+                    e.rect.y -= f_vely
         players.update()
         bullets.update()
         enemies.update()
