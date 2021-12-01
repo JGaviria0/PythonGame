@@ -151,8 +151,14 @@ if __name__=='__main__':
     players.add(player1)
 
 
-    enemy1=Enemy(character['Skeleton_Enemy'], 'Right', 'Attack', 0, 0, 100, True,15,50,100,'Green_Enemy')
+    enemy1=Enemy(character['Green_Enemy'], 'Left', 'Attack', 0, 0, 100, True,15,700,400,'Green_Enemy')
     enemies.add(enemy1)
+    
+    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
+    enemies.add(enemy2)
+
+    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
+    enemies.add(enemy2)
 
     blocks = parserColi(0,0)
     player1.blocks= blocks
@@ -173,7 +179,7 @@ if __name__=='__main__':
                 player1.vely=0
 
                 # Right Direction
-                if event.key == pygame.K_d and player1.action!='Attack':
+                if event.key == pygame.K_d and player1.action!='Attack'and player1.action!='Death':
                     if player1.direction!='Right':
                         player1.actualPositionOfAnimation=0
                     
@@ -182,7 +188,7 @@ if __name__=='__main__':
                     player1.velx = 5
                 
                  # Left Direction
-                if event.key == pygame.K_a and player1.action!='Attack':
+                if event.key == pygame.K_a and player1.action!='Attack'and player1.action!='Death':
                     if player1.direction!='Left':
                         player1.actualPositionOfAnimation=0
                     
@@ -191,7 +197,7 @@ if __name__=='__main__':
                     player1.velx = -5
                 
                 # Up Direction
-                if event.key == pygame.K_w and player1.action!='Attack':
+                if event.key == pygame.K_w and player1.action!='Attack'and player1.action!='Death':
                     if player1.direction!='Up':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Up'
@@ -199,7 +205,7 @@ if __name__=='__main__':
                     player1.vely = -5
 
                 # Down Direction
-                if event.key == pygame.K_s and player1.action!='Attack':
+                if event.key == pygame.K_s and player1.action!='Attack'and player1.action!='Death':
                     if player1.direction!='Down':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Down'
@@ -207,8 +213,8 @@ if __name__=='__main__':
                     player1.vely = 5
                 
                 # Attack
-                if event.key == pygame.K_k and player1.action!='Attack':
-                    ls_col=pygame.sprite.spritecollide(player1, enemies, False)  # If we attack
+                if event.key == pygame.K_k and player1.action!='Attack'and player1.action!='Death':
+                    ls_col=pygame.sprite.spritecollide(player1.rigidBody, enemies, False)  # If we attack
                     for enemy in ls_col:
                         enemy.healt-=20
                         enemy.actualPositionOfAnimation=0
@@ -225,7 +231,7 @@ if __name__=='__main__':
 
             #Static in a position
             if event.type == pygame.KEYUP:
-                if player1.action!='Idle' and player1.action!='Attack':
+                if player1.action!='Idle' and player1.action!='Attack' and player1.action!='Death':
                     player1.action='Idle'
                     player1.actualPositionOfAnimation=0
                 player1.velx=0
@@ -234,7 +240,7 @@ if __name__=='__main__':
         for enemy in enemies:
 
             # Green Enemy
-            if enemy.name=='Green_Enemy':
+            if enemy.name=='Green_Enemy' and player1.action!='Death':
                 if enemy.actualPositionOfAnimation ==10 or enemy.actualPositionOfAnimation==15:
                     enemy.isAttacking=True
 
@@ -266,15 +272,57 @@ if __name__=='__main__':
                     enemy.isAttacking=False
 
             # Skeleton Enemy
-            if enemy.name == "Skeleton_Enemy":
-                pass
+            if enemy.name == "Skeleton_Enemy" and player1.action!='Death':
+                if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' :
+                    if enemy.action!='Attack':
+                        enemy.actualPositionOfAnimation=0
+                    enemy.action='Attack'
+                    
+                    if player1.action!='Hurt':
+                        player1.actualPositionOfAnimation=0
+                        player1.action='Hurt'
 
-        # Check movement complete for the atack
+                    player1.healt-=0.2
+                    print(player1.healt)
+
+                    if player1.healt<0:
+                        player1.action='Death'
+                        player1.actualPositionOfAnimation=0
+                        enemy.action='Idle'
+
+                elif enemy.action!='Idle' and enemy.action!='Hurt' and enemy.action!='Death':
+                    enemy.actualPositionOfAnimation=0
+                    enemy.action='Idle'
+                    player1.actualPositionOfAnimation=0
+
+
+
+        #Check if a bullet shoot me
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
+        for bullet in ls_col:
+            print(player1.healt)
+            player1.healt-=5
+            if player1.action!='Hurt':
+                player1.action='Hurt'
+                player1.actualPositionOfAnimation=0
+            if player1.healt<=0:
+                player1.actualPositionOfAnimation=0
+                player1.action='Death'
+            bullets.remove(bullet)
+
+
+        #Check if a bullet is out of screen
+        for bullet in bullets.copy():
+            if bullet.rect.x>800 or bullet.rect.x<=0 or bullet.rect.y>600 or bullet.rect.y<=0:
+                bullets.remove(bullet)      
+
+
+        # Check movement complete for the atack (Player)
 
         if player1.action!='Idle':
                 if player1.action=='Attack':
                     if player1.actualPositionOfAnimation>len(player1.animations[player1.direction]['Attack'])-2:
-                        ls_col=pygame.sprite.spritecollide(player1, enemies, False)  # If we attack
+                        ls_col=pygame.sprite.spritecollide(player1.rigidBody, enemies, False)  # If we attack
                         for enemy in ls_col:
                             enemy.action='Attack'
                             if enemy.healt==0:
@@ -282,9 +330,12 @@ if __name__=='__main__':
                         
                         player1.action='Idle'
                         player1.actualPositionOfAnimation=0
+
+                if player1.action=='Death':
+                    if player1.actualPositionOfAnimation==3:
+                        players.remove(player1)
                     
    
-
 
         # Right
         if player1.rigidBody.rect.right > lim_movDer:
@@ -296,6 +347,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.x += f_velx
+                
+                for e in enemies:
+                    e.rect.x += f_velx
 
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
@@ -307,6 +361,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.x -= f_velx
+                
+                for e in enemies:
+                    e.rect.x -= f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -318,6 +375,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.y += f_vely
+                
+                for e in enemies:
+                    e.rect.y += f_vely
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -328,6 +388,9 @@ if __name__=='__main__':
 
                 for b in blocks:
                     b.rect.y -= f_vely
+                
+                for e in enemies:
+                    e.rect.y -= f_vely
         players.update()
         bullets.update()
         enemies.update()
@@ -337,17 +400,17 @@ if __name__=='__main__':
 
 
 
-        for block in blocks:
-            pygame.draw.rect(pantalla, AZUL,block.rect,1)
-        pygame.draw.rect(pantalla, ROJO,player1.rect,1)
-        pygame.draw.rect(pantalla, VERDE,player1.rigidBody.rect,1)
+        # for block in blocks:
+        #     pygame.draw.rect(pantalla, AZUL,block.rect,1)
+        # pygame.draw.rect(pantalla, ROJO,player1.rect,1)
+        # pygame.draw.rect(pantalla, VERDE,player1.rigidBody.rect,1)
         bullets.draw(pantalla)
         players.draw(pantalla)
         enemies.draw(pantalla)
-        pygame.draw.rect(pantalla, (255,0,0), player1.hitbox,2)   
+        # pygame.draw.rect(pantalla, (255,0,0), player1.hitbox,2)   
         blocks.draw(pantalla) 
-        for i in blocks:
-            pygame.draw.rect(pantalla, (255,0,0), i.rect,2)   
+        # for i in blocks:
+        #     pygame.draw.rect(pantalla, (255,0,0), i.rect,2)   
 
 
         pygame.display.flip()
