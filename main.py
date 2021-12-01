@@ -147,7 +147,7 @@ if __name__=='__main__':
     blocks=pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,100)
+    player1=Player(character['Principal_Character'],'Right','Idle',50,100)
     players.add(player1)
 
 
@@ -224,10 +224,6 @@ if __name__=='__main__':
                     player1.actualPositionOfAnimation=0
                 player1.velx=0
                 player1.vely=0
-
-
-
-
 
         for enemy in enemies:
 
@@ -320,9 +316,13 @@ if __name__=='__main__':
         parserMap(f_posx,f_posy)
 
         bullets.draw(pantalla)
-        enemies.draw(pantalla)
-        players.draw(pantalla)    
+        # enemies.draw(pantalla)
+        players.draw(pantalla)
+        pygame.draw.rect(pantalla, (255,0,0), player1.hitbox,2)   
         blocks.draw(pantalla) 
+        for i in blocks:
+            pygame.draw.rect(pantalla, (255,0,0), i.rect,2)   
+
 
         pygame.display.flip()
         reloj.tick(20)
