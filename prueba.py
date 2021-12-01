@@ -107,6 +107,7 @@ def parserMap(initialX, initialY):
     rock2 = pygame.image.load('img/rock2.png')
     book = pygame.image.load('img/book.png')
     gun = pygame.image.load('img/gun.gif')
+    treedown3 = pygame.image.load('img/treedown3.1.png')
     pantalla.blit(grass, (0, 0))
 
     stonePosition = []
@@ -118,6 +119,7 @@ def parserMap(initialX, initialY):
     rock2Position = []
     bookPosition = []
     gunPosition = []
+    treedown3Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -149,6 +151,8 @@ def parserMap(initialX, initialY):
                     gunPosition.append([pixelRow, pixelCol])
                 if col == "14": 
                     stone2Position.append([pixelRow, pixelCol])
+                if col == "19": 
+                    treedown3Position.append([pixelRow, pixelCol])
                 pixelRow += 10
 
             pixelCol += 10
@@ -177,16 +181,22 @@ def parserMap(initialX, initialY):
         
         for eachtree in gunPosition:
             pantalla.blit(gun, (eachtree[0], eachtree[1]))
+        
+        for eachtree in treedown3Position:
+            pantalla.blit(treedown3, (eachtree[0], eachtree[1]))
 
 def parserColi(initialX, initialY):
 
     bloques=pygame.sprite.Group()
 
     treeH = pygame.image.load('img/Tree.png')
+    treedown = pygame.image.load('img/treedown.png')
+    treedown2 = pygame.image.load('img/treedown2.png')
+    treedown3 = pygame.image.load('img/treedown3.png')
     generator1 = pygame.image.load('img/Generator1.png')
+    generator2 = pygame.image.load('img/Generator2.png')
     wall1 = pygame.image.load('img/Wall1.png')
     wall2 = pygame.image.load('img/Wall2.png')
-    wall3 = pygame.image.load('img/wall3.png')
     castle = pygame.image.load('img/castle.png')
     house1 = pygame.image.load('img/house1.png')
     house2 = pygame.image.load('img/house2.png')
@@ -195,10 +205,13 @@ def parserColi(initialX, initialY):
     house5 = pygame.image.load('img/house5.png')
 
     treesPosition = []
+    treedownPosition = []
+    treedown2Position = []
+    treedown3Position = []
     generator1Position = []
+    generator2Position = []
     wall1Position = []
     wall2Position = []
-    wall3Position = []
     CastlePosition = []
     house1Position = []
     house2Position = []
@@ -221,6 +234,14 @@ def parserColi(initialX, initialY):
                     wall2Position.append([pixelRow, pixelCol])
                 if col == "10": 
                     generator1Position.append([pixelRow, pixelCol])
+                if col == "15": 
+                    generator2Position.append([pixelRow, pixelCol])
+                if col == "16": 
+                    treedownPosition.append([pixelRow, pixelCol])
+                if col == "17": 
+                    treedown2Position.append([pixelRow, pixelCol])
+                if col == "18": 
+                    treedown3Position.append([pixelRow, pixelCol])
                 if col == "20": 
                     CastlePosition.append([pixelRow, pixelCol])
                 if col == "21":
@@ -241,9 +262,25 @@ def parserColi(initialX, initialY):
         for eachtree in treesPosition:
             b1 = Bloque ([50,61], eachtree, treeH)
             bloques.add(b1)
+        
+        for eachtree in treedownPosition:
+            b1 = Bloque ([50,61], eachtree, treedown)
+            bloques.add(b1)
+        
+        for eachtree in treedown2Position:
+            b1 = Bloque ([50,61], eachtree, treedown2)
+            bloques.add(b1)
+
+        for eachtree in treedown3Position:
+            b1 = Bloque ([50,61], eachtree, treedown3)
+            bloques.add(b1)
 
         for eachtree in generator1Position:
             b1 = Bloque ([41,55], eachtree, generator1)
+            bloques.add(b1)
+        
+        for eachtree in generator2Position:
+            b1 = Bloque ([41,55], eachtree, generator2)
             bloques.add(b1)
         
         for eachtree in wall1Position:
@@ -311,9 +348,6 @@ if __name__=='__main__':
 
     j1=Jugador()
     jugadores.add(j1)
-
-    # b1=Bloque ([50,50], [1400,300])
-    # bloques.add(b1)
 
     bloques = parserColi(0,0)
     # j1.bloques= bloques
