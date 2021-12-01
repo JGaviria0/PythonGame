@@ -58,8 +58,6 @@ class Player(pygame.sprite.Sprite):
         self.blocks=[]
 
         self.rigidBody = RigidBody((posX+20,posY+10))
-        # self.rigidBody = pygame.Rect(posX+20, posY+10, 30, 50)
-        
 
     def update(self):
 
@@ -70,17 +68,6 @@ class Player(pygame.sprite.Sprite):
         
         self.rect.x += self.velx
         self.rigidBody.rect.x += self.velx #This is new
-
-        
-        # if self.rect.right > ANCHO:
-        #     self.rect.right = ANCHO
-        #     self.velx=0
-
-        # if self.rect.left <= 0:
-        #     self.rect.left = 0
-        #     self.velx=0
-
-
                 
         if self.rigidBody.rect.right > ANCHO: #This is new
             self.rigidBody.rect.right = ANCHO
@@ -92,26 +79,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.left= -20
             self.velx=0
 
-
-        # # Collider horizontal whit blocks
-        # ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
-        # for b in ls_col:
-
-        #     if self.velx >0:
-        #         # Derecha
-        #         if self.rect.right > b.rect.left:
-        #             self.rect.right = b.rect.left
-        #             self.velx= 0
-
-        #     else:
-        #         # Izquierda
-        #         if self.rect.left < b.rect.right:
-        #             self.rect.left = b.rect.right
-        #             self.velx=0
-
-
-
-        # Collider horizontal whit blocks
         ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
         for b in ls_col:
             print('COLISION  HORIZONTAL')
@@ -132,15 +99,6 @@ class Player(pygame.sprite.Sprite):
         
         self.rigidBody.rect.y+=self.vely #This is new
         self.rect.y += self.vely
-
-        # if self.rect.bottom > ALTO:
-        #     self.rect.bottom = ALTO
-        #     self.vely=0
-
-        # if self.rect.top < 0:
-        #     self.rect.top = 0
-        #     self.vely=0
-
         
         if self.rigidBody.rect.bottom > ALTO: #This is new
             self.rigidBody.rect.bottom = ALTO
@@ -152,42 +110,23 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = -10
             self.vely=0
 
-        # # Collider Vertical with blocks
-        # ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
-        # for b in ls_col:
-
-        #     if self.vely == 0:
-        #         continue
-
-        #     if self.vely > 0:
-        #         # Debajo
-        #         if self.rect.bottom > b.rect.top:
-        #             self.rect.bottom = b.rect.top
-        #             self.vely=0
-                    
-        #     else:
-        #         # Arriba
-        #         if self.rect.top < b.rect.bottom:
-        #             self.rect.top = b.rect.bottom
-        #             self.vely=0
-
-        # Collider Vertical with blocks
-
         ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
         for b in ls_col:
             print('COLISION VERTICAL')
+            if self.vely==0:
+                continue
             if self.vely > 0:
                 # Debajo
                 if self.rigidBody.rect.bottom >= b.rect.top:
-                    self.rigidBody.rect.bottom = b.rect.top-10
-                    self.rect.bottom = b.rect.top
+                    self.rigidBody.rect.bottom = b.rect.top
+                    self.rect.bottom = b.rect.top+10
                     self.vely=0
                     
             else:
                 # Arriba
-                if self.rigidBody.rect.top <= b.rect.bottom:
-                    self.rigidBody.rect.top = b.rect.bottom+10
-                    self.rect.top = b.rect.bottom
+                if self.rigidBody.rect.top < b.rect.bottom:
+                    self.rigidBody.rect.top = b.rect.bottom
+                    self.rect.top = b.rect.bottom-10
                     self.vely=0
 
 class Enemy(pygame.sprite.Sprite):
