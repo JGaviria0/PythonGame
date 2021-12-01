@@ -147,7 +147,7 @@ if __name__=='__main__':
     blocks=pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,100)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50)
     players.add(player1)
 
 
@@ -266,6 +266,7 @@ if __name__=='__main__':
             # Skeleton Enemy
             if enemy.name == "Skeleton_Enemy":
                 pass
+
         # Check movement complete for the atack
 
         if player1.action!='Idle':
@@ -276,9 +277,10 @@ if __name__=='__main__':
    
 
 
-
-        if player1.rect.right > lim_movDer:
-            player1.rect.right = lim_movDer
+        # Right
+        if player1.rigidBody.rect.right > lim_movDer:
+            player1.rigidBody.rect.right = lim_movDer
+            player1.rect.right = lim_movDer+20
 
             if f_posx > lim_ventana:
                 f_posx += f_velx
@@ -286,8 +288,10 @@ if __name__=='__main__':
                 for b in blocks:
                     b.rect.x += f_velx
 
-        if player1.rect.left <= lim_movIzq:
-            player1.rect.left = lim_movIzq
+        # Left
+        if player1.rigidBody.rect.left <= lim_movIzq:
+            player1.rigidBody.rect.left = lim_movIzq
+            player1.rect.left = lim_movIzq-20
 
             if f_posx <= 0:
                 f_posx -= f_velx
@@ -295,17 +299,20 @@ if __name__=='__main__':
                 for b in blocks:
                     b.rect.x -= f_velx
 
-        if player1.rect.bottom >= lim_movAba:
-            player1.rect.bottom = lim_movAba
+        # Down
+        if player1.rigidBody.rect.bottom >= lim_movAba:
+            player1.rigidBody.rect.bottom = lim_movAba
+            player1.rect.bottom = lim_movAba+10
 
             if f_posy >= lim_ventanaAlto:
                 f_posy += f_vely
 
                 for b in blocks:
                     b.rect.y += f_vely
-
-        if player1.rect.top < lim_movArr:
-            player1.rect.top = lim_movArr
+        # up
+        if player1.rigidBody.rect.top < lim_movArr:
+            player1.rigidBody.rect.top = lim_movArr
+            player1.rect.top=lim_movArr-10
 
             if f_posy <= 0:
                 f_posy -= f_vely
@@ -319,6 +326,11 @@ if __name__=='__main__':
         pantalla.fill(NEGRO)
         parserMap(f_posx,f_posy)
 
+
+        for block in blocks:
+            pygame.draw.rect(pantalla, AZUL,block.rect,1)
+        pygame.draw.rect(pantalla, ROJO,player1.rect,1)
+        pygame.draw.rect(pantalla, VERDE,player1.rigidBody.rect,1)
         bullets.draw(pantalla)
         enemies.draw(pantalla)
         players.draw(pantalla)    
