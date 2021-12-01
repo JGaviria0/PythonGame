@@ -1,5 +1,14 @@
 from utilities import *
 
+class RigidBody(pygame.sprite.Sprite):
+    def __init__(self, pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([30, 50])
+        self.rect = self.image.get_rect()
+        self.rect= self.image.get_rect()
+        self.rect.x=pos[0]
+        self.rect.y=pos[1]
+
 
 class Block(pygame.sprite.Sprite):
     def __init__(self,dim,pos,cl):
@@ -26,29 +35,6 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y += self.vely
         self.rect.x += self.velx
 
-
-
-
-
-class Player(pygame.sprite.Sprite):
-
-    def __init__(self,animations,direction,action,posX,posY):
-        pygame.sprite.Sprite.__init__(self)
-        self.animations=animations
-        self.action=action
-        self.actualPositionOfAnimation=0
-        self.direction=direction
-        self.image = animations[direction][action][0]
-        self.rect = pygame.Rect(posX, posY, 40, 50)
-        self.hitbox = pygame.Rect(self.rect.x + 10, self.rect.y, 40, 50)
-        self.velx=0
-        self.vely=0
-        self.puntos=0
-        self.salud=100
-        self.blocks=[]
-    
-        
-
 class Player(pygame.sprite.Sprite):
 
     def __init__(self,animations,direction,action,posX,posY):
@@ -59,77 +45,90 @@ class Player(pygame.sprite.Sprite):
         self.direction=direction
         self.image = animations[direction][action][0]
         self.rect = self.image.get_rect()
-        self.hitbox = pygame.Rect(self.rect.x + 20, self.rect.y+13, 30, 45)
+        self.rect.y=posY
+        self.rect.x=posX
         self.velx=0
         self.vely=0
         self.puntos=0
         self.salud=100
         self.blocks=[]
-    
+
+        self.rigidBody = RigidBody((posX+20,posY+10))
+        # self.rigidBody = pygame.Rect(posX+20, posY+10, 30, 50)
         
 
     def update(self):
-        # print (self.hitbox)
+
+        print(f'({self.rect.x,self.rect.y}),({self.rigidBody.rect.x},{self.rigidBody.rect.y})')
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
         
         self.rect.x += self.velx
-        self.hitbox = pygame.Rect(self.rect.x+20, self.rect.y+13, 30, 45) 
-        if self.hitbox.right > ANCHO:
-            print("hola muy buenas")
-            self.rect.right = ANCHO
+        self.rigidBody.rect.x += self.velx #This is new
+                
+        if self.rigidBody.rect.right > ANCHO: #This is new
+            self.rigidBody.rect.right = ANCHO
+            self.rect.right = ANCHO+20
             self.velx=0
 
-        if self.hitbox.left <= 0:
-            self.rect.left = 0
+        if self.rigidBody.rect.left < 1:  #This is new
+            self.rigidBody.rect.left = 0
+            self.rect.left= -20
             self.velx=0
 
-        # Collider horizontal whit blocks
-        ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
+        ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
         for b in ls_col:
+            print('COLISION  HORIZONTAL')
+            
+            if self.velx == 0:
+                continue
 
             if self.velx >0:
                 # Derecha
-                if self.hitbox.right > b.rect.left and self.hitbox.right < b.rect.right:
-                    self.rect.right = b.rect.left
+                if self.rigidBody.rect.right > b.rect.left:
+                    self.rigidBody.rect.right = b.rect.left
+                    self.rect.right = b.rect.left+20
                     self.velx= 0
 
             else:
                 # Izquierda
-                if self.hitbox.left-10 < b.rect.right:
-                    self.rect.left = b.rect.right - 15
+                if self.rigidBody.rect.left < b.rect.right:
+                    self.rigidBody.rect.left = b.rect.right
+                    self.rect.left = b.rect.right-20
                     self.velx=0
-
-
+        
+        self.rigidBody.rect.y+=self.vely 
         self.rect.y += self.vely
-        self.hitbox = pygame.Rect(self.rect.x + 20, self.rect.y+13, 30, 45) 
-        if self.hitbox.bottom >= ALTO:
-            self.rect.bottom = ALTO
+        
+        if self.rigidBody.rect.bottom > ALTO: 
+            self.rigidBody.rect.bottom = ALTO
+            self.rect.bottom = ALTO-10
             self.vely=0
 
-        if self.hitbox.top < 0:
-            self.rect.top = 0
+        if self.rigidBody.rect.top < 0:
+            self.rigidBody.rect.top=0
+            self.rect.top = -10
             self.vely=0
 
-        # Collider Vertical with blocks
-        ls_col=pygame.sprite.spritecollide(self, self.blocks, False) 
+        ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False) 
         for b in ls_col:
-
+            print('COLISION VERTICAL')
             if self.vely == 0:
-                print("Hola")
                 continue
 
             if self.vely > 0:
                 # Debajo
-                if self.hitbox.bottom > b.rect.top :
-                    self.rect.bottom = b.rect.top
+                if self.rigidBody.rect.bottom >= b.rect.top:
+                    self.rigidBody.rect.bottom = b.rect.top
+                    self.rect.bottom = b.rect.top+10
                     self.vely=0
                     
             else:
                 # Arriba
-                if self.hitbox.top < b.rect.bottom:
-                    self.rect.top = b.rect.bottom 
+                if self.rigidBody.rect.top <= b.rect.bottom:
+                    self.rigidBody.rect.top = b.rect.bottom
+                    self.rect.top = b.rect.bottom-10
                     self.vely=0
 
 
