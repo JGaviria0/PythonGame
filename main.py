@@ -147,11 +147,11 @@ if __name__=='__main__':
     blocks=pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100)
     players.add(player1)
 
 
-    enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 10, True,15,50,100,'Green_Enemy')
+    enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 100, True,15,50,100,'Green_Enemy')
     enemies.add(enemy1)
 
     blocks = parserColi(0,0)
@@ -207,7 +207,13 @@ if __name__=='__main__':
                     player1.vely = 5
                 
                 # Attack
-                if event.key == pygame.K_k:
+                if event.key == pygame.K_k and player1.action!='Attack':
+                    ls_col=pygame.sprite.spritecollide(player1, enemies, False)  # If we attack
+                    for enemy in enemies:
+                        enemy.healt-=20
+                        if enemy.healt<=0:
+                            enemies.remove(enemy)
+
                     player1.action='Attack'
                     player1.actualPositionOfAnimation=0
                     player1.velx=0
@@ -320,13 +326,14 @@ if __name__=='__main__':
         parserMap(f_posx,f_posy)
 
 
+
         for block in blocks:
             pygame.draw.rect(pantalla, AZUL,block.rect,1)
         pygame.draw.rect(pantalla, ROJO,player1.rect,1)
         pygame.draw.rect(pantalla, VERDE,player1.rigidBody.rect,1)
         bullets.draw(pantalla)
-        # enemies.draw(pantalla)
         players.draw(pantalla)
+        enemies.draw(pantalla)
         pygame.draw.rect(pantalla, (255,0,0), player1.hitbox,2)   
         blocks.draw(pantalla) 
         for i in blocks:

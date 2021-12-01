@@ -37,7 +37,7 @@ class Bullet(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self,animations,direction,action,posX,posY):
+    def __init__(self,animations,direction,action,posX,posY,healt):
         pygame.sprite.Sprite.__init__(self)
         self.animations=animations
         self.action=action
@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):
         self.velx=0
         self.vely=0
         self.puntos=0
-        self.salud=100
+        self.healt=healt
         self.blocks=[]
 
         self.rigidBody = RigidBody((posX+20,posY+10))
