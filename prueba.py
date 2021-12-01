@@ -1,3 +1,4 @@
+from typing import cast
 import pygame
 import random
 import csv
@@ -102,6 +103,8 @@ def parserMap(initialX, initialY):
     stone2 = pygame.image.load('img/Stone2.png')
     plant = pygame.image.load('img/plant.png')
     plant2 = pygame.image.load('img/plant2.png')
+    rock1 = pygame.image.load('img/rock.png')
+    rock2 = pygame.image.load('img/rock2.png')
     pantalla.blit(grass, (0, 0))
 
     stonePosition = []
@@ -109,6 +112,8 @@ def parserMap(initialX, initialY):
     wall1Position = []
     plantPosition = []
     plant2Position = []
+    rockPosition = []
+    rock2Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -117,36 +122,23 @@ def parserMap(initialX, initialY):
         csv_reader = csv.reader(csv_file, delimiter=';')
         for row in csv_reader:
             for col in row:
-                if col == "1": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
+                pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "2":
                     pantalla.blit(dirtBrown, (pixelRow, pixelCol))
                 if col == "3":
                     wall1Position.append([pixelRow, pixelCol])
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-                if col == "4": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-                if col == "5": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "6":
                     plantPosition.append([pixelRow, pixelCol]) 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "7":
                     plant2Position.append([pixelRow, pixelCol]) 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-                if col == "9": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
+                if col == "8":
+                    rockPosition.append([pixelRow, pixelCol]) 
+                if col == "9":
+                    rock2Position.append([pixelRow, pixelCol]) 
                 if col == "12": 
                     stonePosition.append([pixelRow, pixelCol])
-                    pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "14": 
                     stone2Position.append([pixelRow, pixelCol])
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-                if col == "10": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-                if col == "20": 
-                    pantalla.blit(grass, (pixelRow, pixelCol))
-
                 pixelRow += 10
 
             pixelCol += 10
@@ -163,6 +155,12 @@ def parserMap(initialX, initialY):
 
         for eachtree in plant2Position:
             pantalla.blit(plant2, (eachtree[0], eachtree[1]))
+        
+        for eachtree in rockPosition:
+            pantalla.blit(rock1, (eachtree[0], eachtree[1]))
+        
+        for eachtree in rock2Position:
+            pantalla.blit(rock2, (eachtree[0], eachtree[1]))
 
 def parserColi(initialX, initialY):
 
@@ -173,14 +171,22 @@ def parserColi(initialX, initialY):
     wall1 = pygame.image.load('img/Wall1.png')
     wall2 = pygame.image.load('img/Wall2.png')
     castle = pygame.image.load('img/castle.png')
-    houses = pygame.image.load('img/houses.png')
+    house1 = pygame.image.load('img/house1.png')
+    house2 = pygame.image.load('img/house2.png')
+    house3 = pygame.image.load('img/house3.png')
+    house4 = pygame.image.load('img/house4.png')
+    house5 = pygame.image.load('img/house5.png')
 
     treesPosition = []
     generator1Position = []
     wall1Position = []
     wall2Position = []
     CastlePosition = []
-    housesPosition = []
+    house1Position = []
+    house2Position = []
+    house3Position = []
+    house4Position = []
+    house5Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -195,15 +201,22 @@ def parserColi(initialX, initialY):
                     treesPosition.append([pixelRow, pixelCol])
                 if col == "5":
                     wall2Position.append([pixelRow, pixelCol])
-                if col == "9":
-                    housesPosition.append([pixelRow, pixelCol])
                 if col == "10": 
                     generator1Position.append([pixelRow, pixelCol])
                 if col == "20": 
                     CastlePosition.append([pixelRow, pixelCol])
+                if col == "21":
+                    house1Position.append([pixelRow, pixelCol])
+                if col == "22":
+                    house2Position.append([pixelRow, pixelCol])
+                if col == "23":
+                    house3Position.append([pixelRow, pixelCol])
+                if col == "24":
+                    house4Position.append([pixelRow, pixelCol])
+                if col == "25":
+                    house5Position.append([pixelRow, pixelCol])
 
                 pixelRow += 10
-
             pixelCol += 10
             pixelRow = initialX
         
@@ -220,16 +233,45 @@ def parserColi(initialX, initialY):
             bloques.add(b1)
         
         for eachtree in wall2Position:
-            b1 = Bloque ([30,10], eachtree, wall2)
+            b1 = Bloque ([10,30], eachtree, wall2)
             bloques.add(b1)
         
         for eachtree in CastlePosition:
-            b1 = Bloque ([30,10], eachtree, castle)
+            aux = castle
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, castle)
             bloques.add(b1)
 
-        for eachtree in housesPosition:
-            b1 = Bloque ([30,10], eachtree, houses)
+        for eachtree in house1Position:
+            aux = house1
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
+        
+        for eachtree in house2Position:
+            aux = house2
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in house3Position:
+            aux = house3
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in house4Position:
+            aux = house4
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in house5Position:
+            aux = house5
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
     
     return bloques
           
@@ -303,7 +345,7 @@ if __name__=='__main__':
                 for b in bloques:
                     b.rect.x += f_velx
 
-        if j1.rect.left <= lim_movIzq:
+        if j1.rect.left < lim_movIzq:
             j1.rect.left = lim_movIzq
 
             if f_posx <= 0:
@@ -312,7 +354,7 @@ if __name__=='__main__':
                 for b in bloques:
                     b.rect.x -= f_velx
 
-        if j1.rect.bottom >= lim_movAba:
+        if j1.rect.bottom > lim_movAba:
             j1.rect.bottom = lim_movAba
 
             if f_posy >= lim_ventanaAlto:
