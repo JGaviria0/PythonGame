@@ -151,7 +151,7 @@ if __name__=='__main__':
     players.add(player1)
 
 
-    enemy1=Enemy(character['Green_Enemy'], 'Right', 'Attack', 0, 0, 100, True,15,50,100,'Green_Enemy')
+    enemy1=Enemy(character['Skeleton_Enemy'], 'Right', 'Attack', 0, 0, 100, True,15,50,100,'Green_Enemy')
     enemies.add(enemy1)
 
     blocks = parserColi(0,0)
