@@ -151,13 +151,13 @@ if __name__=='__main__':
     players.add(player1)
 
 
-    enemy1=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,50,115,'Skeleton_Enemy')
+    enemy1=Enemy(character['Green_Enemy'], 'Left', 'Attack', 0, 0, 100, True,15,700,400,'Green_Enemy')
     enemies.add(enemy1)
     
     enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
     enemies.add(enemy2)
 
-    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,400,350,'Skeleton_Enemy')
+    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
     enemies.add(enemy2)
 
     blocks = parserColi(0,0)
@@ -290,14 +290,32 @@ if __name__=='__main__':
                         player1.actualPositionOfAnimation=0
                         enemy.action='Idle'
 
-                    # if player1.action!='Hurt':
-                    #     player1.actualPositionOfAnimation=0
-                    #     enemy.actualPositionOfAnimation=0
-
                 elif enemy.action!='Idle' and enemy.action!='Hurt' and enemy.action!='Death':
                     enemy.actualPositionOfAnimation=0
                     enemy.action='Idle'
                     player1.actualPositionOfAnimation=0
+
+
+
+        #Check if a bullet shoot me
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
+        for bullet in ls_col:
+            print(player1.healt)
+            player1.healt-=5
+            if player1.action!='Hurt':
+                player1.action='Hurt'
+                player1.actualPositionOfAnimation=0
+            if player1.healt<=0:
+                player1.actualPositionOfAnimation=0
+                player1.action='Death'
+            bullets.remove(bullet)
+
+
+        #Check if a bullet is out of screen
+        for bullet in bullets.copy():
+            if bullet.rect.x>800 or bullet.rect.x<=0 or bullet.rect.y>600 or bullet.rect.y<=0:
+                bullets.remove(bullet)      
+
 
         # Check movement complete for the atack (Player)
 
