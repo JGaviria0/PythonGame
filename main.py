@@ -209,10 +209,13 @@ if __name__=='__main__':
                 # Attack
                 if event.key == pygame.K_k and player1.action!='Attack':
                     ls_col=pygame.sprite.spritecollide(player1, enemies, False)  # If we attack
-                    for enemy in enemies:
+                    for enemy in ls_col:
                         enemy.healt-=20
-                        if enemy.healt<=0:
-                            enemies.remove(enemy)
+                        enemy.actualPositionOfAnimation=0
+                        enemy.action='Hurt'
+                        if enemy.healt==0:
+                            enemy.action='Death'
+                            
 
                     player1.action='Attack'
                     player1.actualPositionOfAnimation=0
@@ -271,8 +274,15 @@ if __name__=='__main__':
         if player1.action!='Idle':
                 if player1.action=='Attack':
                     if player1.actualPositionOfAnimation>len(player1.animations[player1.direction]['Attack'])-2:
+                        ls_col=pygame.sprite.spritecollide(player1, enemies, False)  # If we attack
+                        for enemy in ls_col:
+                            enemy.action='Attack'
+                            if enemy.healt==0:
+                                enemies.remove(enemy)
+                        
                         player1.action='Idle'
                         player1.actualPositionOfAnimation=0
+                    
    
 
 
