@@ -285,7 +285,7 @@ if __name__=='__main__':
                     player1.healt-=0.2
                     print(player1.healt)
 
-                    if player1.healt<0:
+                    if player1.healt<=0:
                         player1.action='Death'
                         player1.actualPositionOfAnimation=0
                         enemy.action='Idle'
