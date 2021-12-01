@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
 
-        print(f'({self.rect.x,self.rect.y}),({self.rigidBody.rect.x},{self.rigidBody.rect.y})')
+        # print(f'({self.rect.x,self.rect.y}),({self.rigidBody.rect.x},{self.rigidBody.rect.y})')
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 
         ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False)  # This is new
         for b in ls_col:
-            print('COLISION  HORIZONTAL')
+            # print('COLISION  HORIZONTAL')
             
             if self.velx == 0:
                 continue
@@ -111,7 +111,7 @@ class Player(pygame.sprite.Sprite):
 
         ls_col=pygame.sprite.spritecollide(self.rigidBody, self.blocks, False) 
         for b in ls_col:
-            print('COLISION VERTICAL')
+            # print('COLISION VERTICAL')
             if self.vely == 0:
                 continue
 
