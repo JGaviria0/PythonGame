@@ -21,7 +21,7 @@ class Jugador(pygame.sprite.Sprite):
         self.image = pygame.Surface([50,50])
         self.image.fill(BLANCO)
         self.rect = self.image.get_rect()
-        self.rect.x=200
+        self.rect.x=1000
         self.rect.y=ALTO - 300
         self.velx=0
         self.vely=0
@@ -42,6 +42,9 @@ class Jugador(pygame.sprite.Sprite):
 
         ls_col=pygame.sprite.spritecollide(self, self.bloques, False) 
         for b in ls_col:
+            
+            if self.vely == 0:
+                continue
 
             if self.velx >0:
                 if self.rect.right > b.rect.left:
@@ -95,21 +98,17 @@ def parserMap(initialX, initialY):
         initialY = 0
     grass = pygame.image.load('img/Grass.png')
     dirtBrown = pygame.image.load('img/Dirt.png')
-    treeH = pygame.image.load('img/Tree.png')
     stone1 = pygame.image.load('img/Stone1.png')
     stone2 = pygame.image.load('img/Stone2.png')
-    generator1 = pygame.image.load('img/Generator1.png')
-    generator1 = pygame.image.load('img/Generator1.png')
-    wall1 = pygame.image.load('img/Wall1.png')
-    castle = pygame.image.load('img/castle.png')
+    plant = pygame.image.load('img/plant.png')
+    plant2 = pygame.image.load('img/plant2.png')
     pantalla.blit(grass, (0, 0))
 
-    treesPosition = []
     stonePosition = []
     stone2Position = []
-    generator1Position = []
     wall1Position = []
-    CastlePosition = []
+    plantPosition = []
+    plant2Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -126,6 +125,16 @@ def parserMap(initialX, initialY):
                     wall1Position.append([pixelRow, pixelCol])
                     pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "4": 
+                    pantalla.blit(grass, (pixelRow, pixelCol))
+                if col == "5": 
+                    pantalla.blit(grass, (pixelRow, pixelCol))
+                if col == "6":
+                    plantPosition.append([pixelRow, pixelCol]) 
+                    pantalla.blit(grass, (pixelRow, pixelCol))
+                if col == "7":
+                    plant2Position.append([pixelRow, pixelCol]) 
+                    pantalla.blit(grass, (pixelRow, pixelCol))
+                if col == "9": 
                     pantalla.blit(grass, (pixelRow, pixelCol))
                 if col == "12": 
                     stonePosition.append([pixelRow, pixelCol])
@@ -148,6 +157,12 @@ def parserMap(initialX, initialY):
 
         for eachtree in stone2Position:
             pantalla.blit(stone2, (eachtree[0], eachtree[1]))
+        
+        for eachtree in plantPosition:
+            pantalla.blit(plant, (eachtree[0], eachtree[1]))
+
+        for eachtree in plant2Position:
+            pantalla.blit(plant2, (eachtree[0], eachtree[1]))
 
 def parserColi(initialX, initialY):
 
@@ -156,14 +171,16 @@ def parserColi(initialX, initialY):
     treeH = pygame.image.load('img/Tree.png')
     generator1 = pygame.image.load('img/Generator1.png')
     wall1 = pygame.image.load('img/Wall1.png')
+    wall2 = pygame.image.load('img/Wall2.png')
     castle = pygame.image.load('img/castle.png')
+    houses = pygame.image.load('img/houses.png')
 
     treesPosition = []
-    stonePosition = []
-    stone2Position = []
     generator1Position = []
     wall1Position = []
+    wall2Position = []
     CastlePosition = []
+    housesPosition = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -176,6 +193,10 @@ def parserColi(initialX, initialY):
                     wall1Position.append([pixelRow, pixelCol])
                 if col == "4":
                     treesPosition.append([pixelRow, pixelCol])
+                if col == "5":
+                    wall2Position.append([pixelRow, pixelCol])
+                if col == "9":
+                    housesPosition.append([pixelRow, pixelCol])
                 if col == "10": 
                     generator1Position.append([pixelRow, pixelCol])
                 if col == "20": 
@@ -198,8 +219,17 @@ def parserColi(initialX, initialY):
             b1 = Bloque ([30,10], eachtree, wall1)
             bloques.add(b1)
         
+        for eachtree in wall2Position:
+            b1 = Bloque ([30,10], eachtree, wall2)
+            bloques.add(b1)
+        
         for eachtree in CastlePosition:
-            pantalla.blit(castle, (eachtree[0], eachtree[1]))  
+            b1 = Bloque ([30,10], eachtree, castle)
+            bloques.add(b1)
+
+        for eachtree in housesPosition:
+            b1 = Bloque ([30,10], eachtree, houses)
+            bloques.add(b1)
     
     return bloques
           
@@ -226,7 +256,7 @@ if __name__=='__main__':
     # bloques.add(b1)
 
     bloques = parserColi(0,0)
-    j1.bloques= bloques
+    # j1.bloques= bloques
 
     f_posx= 0
     f_velx= -5
