@@ -105,6 +105,8 @@ def parserMap(initialX, initialY):
     plant2 = pygame.image.load('img/plant2.png')
     rock1 = pygame.image.load('img/rock.png')
     rock2 = pygame.image.load('img/rock2.png')
+    book = pygame.image.load('img/book.png')
+    gun = pygame.image.load('img/gun.gif')
     pantalla.blit(grass, (0, 0))
 
     stonePosition = []
@@ -114,6 +116,8 @@ def parserMap(initialX, initialY):
     plant2Position = []
     rockPosition = []
     rock2Position = []
+    bookPosition = []
+    gunPosition = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -134,9 +138,15 @@ def parserMap(initialX, initialY):
                 if col == "8":
                     rockPosition.append([pixelRow, pixelCol]) 
                 if col == "9":
-                    rock2Position.append([pixelRow, pixelCol]) 
+                    rock2Position.append([pixelRow, pixelCol])
+                if col == "11":
+                    pantalla.blit(dirtBrown, (pixelRow, pixelCol))
+                    bookPosition.append([pixelRow, pixelCol])  
                 if col == "12": 
                     stonePosition.append([pixelRow, pixelCol])
+                if col == "13": 
+                    pantalla.blit(dirtBrown, (pixelRow, pixelCol))
+                    gunPosition.append([pixelRow, pixelCol])
                 if col == "14": 
                     stone2Position.append([pixelRow, pixelCol])
                 pixelRow += 10
@@ -161,6 +171,12 @@ def parserMap(initialX, initialY):
         
         for eachtree in rock2Position:
             pantalla.blit(rock2, (eachtree[0], eachtree[1]))
+        
+        for eachtree in bookPosition:
+            pantalla.blit(book, (eachtree[0], eachtree[1]))
+        
+        for eachtree in gunPosition:
+            pantalla.blit(gun, (eachtree[0], eachtree[1]))
 
 def parserColi(initialX, initialY):
 
@@ -170,6 +186,7 @@ def parserColi(initialX, initialY):
     generator1 = pygame.image.load('img/Generator1.png')
     wall1 = pygame.image.load('img/Wall1.png')
     wall2 = pygame.image.load('img/Wall2.png')
+    wall3 = pygame.image.load('img/wall3.png')
     castle = pygame.image.load('img/castle.png')
     house1 = pygame.image.load('img/house1.png')
     house2 = pygame.image.load('img/house2.png')
@@ -181,6 +198,7 @@ def parserColi(initialX, initialY):
     generator1Position = []
     wall1Position = []
     wall2Position = []
+    wall3Position = []
     CastlePosition = []
     house1Position = []
     house2Position = []
