@@ -1,13 +1,14 @@
 from utilities import *
 
 class Generator(pygame.sprite.Sprite):
-    def __init__(self,pos,healt,directionImg):
+    def __init__(self,pos,healt, directionImg, path):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(directionImg)
         self.rect = self.image.get_rect()
         self.rect.y=pos[1]
         self.rect.x=pos[0]
         self.healt=healt
+        self.path = path
 
 
 class Magic_Book(pygame.sprite.Sprite):
@@ -39,12 +40,13 @@ class RigidBody(pygame.sprite.Sprite):
 
 
 class Block(pygame.sprite.Sprite):
-    def __init__(self,dim,pos,cl):
+    def __init__(self,dim,pos,cl, type = 0):
         pygame.sprite.Sprite.__init__(self)
         self.image = cl
         self.rect = self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
+        self.type = type
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -163,7 +165,7 @@ class Player(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self,animations,direction,action,velx,vely,healt,isAttacking,time,posX,posY,name):
+    def __init__(self,animations,direction,action,velx,vely,healt,isAttacking,time,posX,posY,name, limit):
         pygame.sprite.Sprite.__init__(self)
         self.animations=animations
         self.action=action
@@ -179,28 +181,23 @@ class Enemy(pygame.sprite.Sprite):
         self.isAttacking=isAttacking
         self.time=time
         self.name=name
+        self.limit = limit
 
     def update(self):
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
 
-        if self.time>0:
-            self.time-=1
+        
         self.rect.x += self.velx
-        # if self.rect.right > ANCHO:
-        #     self.rect.right = ANCHO
-        #     self.velx=0
+        self.rect.y += self.vely
 
-        # if self.rect.left <= 0:
-        #     self.rect.left = 0
-        #     self.velx=0
+        # Limit's control
+        if self.rect.x <= self.limit[0]:
+            self.direction = 'Right'
+            self.velx = 5
+        
+        if self.rect.x >= self.limit[1]:
+            self.direction = 'Left'
+            self.velx = -5
 
-        # self.rect.y += self.vely
-        # if self.rect.bottom > ALTO:
-        #     self.rect.bottom = ALTO
-        #     self.vely=0
-
-        # if self.rect.top < 0:
-        #     self.rect.top = 0
-        #     self.vely=0

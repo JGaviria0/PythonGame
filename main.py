@@ -1,6 +1,8 @@
 import pygame
 import random
 import csv
+
+from pygame import time
 from models import *
 from map import *
 
@@ -47,29 +49,27 @@ if __name__=='__main__':
     # Group of magic books
     books = pygame.sprite.Group()
 
-    # Group of gerator Skeleton
-    generatorSkeleton = pygame.sprite.Group()
 
-    # Group of generator Green
+    generatorSkeleton = parserSkeletonGenerator(0,0)
+    for g in generatorSkeleton: 
+        print(g.path)
+
     generatorGreen = pygame.sprite.Group()
 
-
-    generator1=Generator((200,200), 100, './img/generator1.png')
-    generatorSkeleton.add(generator1)
 
 
     player1=Player(character['Principal_Character'],'Down','Idle',50,50,100)
     players.add(player1)
 
 
-    enemy1=Enemy(character['Green_Enemy'], 'Left', 'Attack', 0, 0, 100, True,15,700,400,'Green_Enemy')
-    enemies.add(enemy1)
+    # enemy1=Enemy(character['Green_Enemy'], 'Left', 'Attack', 0, 0, 100, True,15,700,400,'Green_Enemy')
+    # enemies.add(enemy1)
     
-    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
-    enemies.add(enemy2)
+    # enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
+    # enemies.add(enemy2)
 
-    enemy3=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
-    enemies.add(enemy3)
+    # enemy3=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
+    # enemies.add(enemy3)
 
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
@@ -84,8 +84,10 @@ if __name__=='__main__':
     f_vely= -5
 
     reloj=pygame.time.Clock()
+    seconds = 0
     fin=False
     while not fin:
+        seconds += reloj.get_time()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fin=True
@@ -209,7 +211,7 @@ if __name__=='__main__':
                         player1.actualPositionOfAnimation=0
                         enemy.action='Idle'
 
-                elif enemy.action!='Idle' and enemy.action!='Hurt' and enemy.action!='Death':
+                elif enemy.action!='Idle' and enemy.action!='Hurt' and enemy.action!='Death' and enemy.action != "Walk":
                     enemy.actualPositionOfAnimation=0
                     enemy.action='Idle'
                     enemy.direction=player1.direction
@@ -220,6 +222,28 @@ if __name__=='__main__':
                 enemy.actualPositionOfAnimation=0
 
 
+        if seconds >= 10000:
+
+            seconds = 0
+
+            for generator in generatorSkeleton:
+                print(generator.path)
+                enemyn=Enemy(character['Skeleton_Enemy'], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,'Skeleton_Enemy', generator.path)
+                enemies.add(enemyn)
+
+            print("pasaron 10s")
+
+        # check if we are hiting a generator
+
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, generatorSkeleton, False)
+        for generator in ls_col:
+            if player1.action == "Attack":
+                print(generator.healt)
+                generator.healt -= 3
+            
+            if generator.healt <=0:
+                generatorSkeleton.remove(generator)
+            
 
         #Check if a bullet shoot me
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
@@ -271,11 +295,6 @@ if __name__=='__main__':
             txt_info=myfont.render(book.description, True , VERDE)
             pantalla.blit(txt_info, (5,5))
             
-            
-
-
-
-
         # Slice on screen 
 
         # Right
@@ -401,6 +420,7 @@ if __name__=='__main__':
         enemies.draw(pantalla)
         blocks.draw(pantalla) 
         books.draw(pantalla)
+        generatorSkeleton.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
@@ -409,9 +429,6 @@ if __name__=='__main__':
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
 
-
-        # Generators
-        generatorSkeleton.draw(pantalla)
 
 
         reloj.tick(20)

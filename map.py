@@ -164,10 +164,10 @@ def parserColi(initialX, initialY, pantalla):
                     treesPosition.append([pixelRow, pixelCol])
                 if col == "5":
                     wall2Position.append([pixelRow, pixelCol])
-                if col == "10": 
-                    generator1Position.append([pixelRow, pixelCol])
-                if col == "15": 
-                    generator2Position.append([pixelRow, pixelCol])
+                # if col == "10": 
+                #     generator1Position.append([pixelRow, pixelCol])
+                # if col == "15": 
+                #     generator2Position.append([pixelRow, pixelCol])
                 if col == "16": 
                     treedownPosition.append([pixelRow, pixelCol])
                 if col == "17": 
@@ -315,3 +315,33 @@ def parserColi(initialX, initialY, pantalla):
         
     
     return Blocks
+
+def parserSkeletonGenerator(initialX, initialY):
+
+    generatorSkeleton = pygame.sprite.Group()
+    generatorGreen= pygame.sprite.Group()
+
+    pixelRow = initialX
+    pixelCol = initialY
+
+    with open('map/map1.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        cont = 0
+        for row in csv_reader:
+            for col in row:
+                if col == "10":
+                    print(cont)
+                    if cont == 0:
+                        print("Hola")
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 600])
+                        generatorSkeleton.add(generator1)
+                    else:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [0, 600])
+                        generatorSkeleton.add(generator1)
+                    cont += 1
+
+                pixelRow += 10
+            pixelCol += 10
+            pixelRow = initialX
+
+    return generatorSkeleton
