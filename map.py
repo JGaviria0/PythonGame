@@ -3,6 +3,42 @@ import random
 import csv
 from models import *
 
+# Map
+grass = pygame.image.load('img/Grass.png')
+dirtBrown = pygame.image.load('img/Dirt.png')
+water2 = pygame.image.load('img/water2.png')
+stone1 = pygame.image.load('img/Stone1.png')
+stone2 = pygame.image.load('img/Stone2.png')
+plant = pygame.image.load('img/plant.png')
+plant2 = pygame.image.load('img/plant2.png')
+rock1 = pygame.image.load('img/rock.png')
+rock2 = pygame.image.load('img/rock2.png')
+book = pygame.image.load('img/book.png')
+gun = pygame.image.load('img/gun.gif')
+treedown3 = pygame.image.load('img/treedown3.1.png')
+
+# Colin
+treeH = pygame.image.load('img/Tree.png')
+tree2 = pygame.image.load('img/tree2.png')
+treedown = pygame.image.load('img/treedown.png')
+treedown2 = pygame.image.load('img/treedown2.png')
+treedown3 = pygame.image.load('img/treedown3.png')
+generator1 = pygame.image.load('img/Generator1.png')
+generator2 = pygame.image.load('img/Generator2.png')
+wall1 = pygame.image.load('img/Wall1.png')
+wall2 = pygame.image.load('img/Wall2.png')
+wall3 = pygame.image.load('img/Wall3.png')
+castle = pygame.image.load('img/castle.png')
+house1 = pygame.image.load('img/house1.png')
+house2 = pygame.image.load('img/house2.png')
+house3 = pygame.image.load('img/house3.png')
+house4 = pygame.image.load('img/house4.png')
+house5 = pygame.image.load('img/house5.png')
+house6 = pygame.image.load('img/house6.png')
+heap = pygame.image.load('img/heap.png')
+water = pygame.image.load('img/water.png')
+ship = pygame.image.load('img/ship.png')
+
 def parserMap(initialX, initialY, pantalla):
 
     if initialX > 0:
@@ -10,18 +46,6 @@ def parserMap(initialX, initialY, pantalla):
 
     if initialY > 0:
         initialY = 0
-    grass = pygame.image.load('img/Grass.png')
-    dirtBrown = pygame.image.load('img/Dirt.png')
-    water2 = pygame.image.load('img/water2.png')
-    stone1 = pygame.image.load('img/Stone1.png')
-    stone2 = pygame.image.load('img/Stone2.png')
-    plant = pygame.image.load('img/plant.png')
-    plant2 = pygame.image.load('img/plant2.png')
-    rock1 = pygame.image.load('img/rock.png')
-    rock2 = pygame.image.load('img/rock2.png')
-    book = pygame.image.load('img/book.png')
-    gun = pygame.image.load('img/gun.gif')
-    treedown3 = pygame.image.load('img/treedown3.1.png')
     pantalla.blit(grass, (0, 0))
 
     stonePosition = []
@@ -108,27 +132,6 @@ def parserMap(initialX, initialY, pantalla):
 def parserColi(initialX, initialY, pantalla):
 
     Blocks=pygame.sprite.Group()
-
-    treeH = pygame.image.load('img/Tree.png')
-    tree2 = pygame.image.load('img/tree2.png')
-    treedown = pygame.image.load('img/treedown.png')
-    treedown2 = pygame.image.load('img/treedown2.png')
-    treedown3 = pygame.image.load('img/treedown3.png')
-    generator1 = pygame.image.load('img/Generator1.png')
-    generator2 = pygame.image.load('img/Generator2.png')
-    wall1 = pygame.image.load('img/Wall1.png')
-    wall2 = pygame.image.load('img/Wall2.png')
-    wall3 = pygame.image.load('img/Wall3.png')
-    castle = pygame.image.load('img/castle.png')
-    house1 = pygame.image.load('img/house1.png')
-    house2 = pygame.image.load('img/house2.png')
-    house3 = pygame.image.load('img/house3.png')
-    house4 = pygame.image.load('img/house4.png')
-    house5 = pygame.image.load('img/house5.png')
-    house6 = pygame.image.load('img/house6.png')
-    heap = pygame.image.load('img/heap.png')
-    water = pygame.image.load('img/water.png')
-    ship = pygame.image.load('img/ship.png')
 
     treesPosition = []
     treedownPosition = []
@@ -331,16 +334,16 @@ def parserSkeletonGenerator(initialX, initialY):
             for col in row:
                 if col == "10":
                     if cont == 0:
-                        print(pixelRow, pixelCol)
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165])
+                        # generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 2140, 110, 43])
+                        print(pixelCol,pixelRow)
                         generatorSkeleton.add(generator1)
-                    if cont == 1:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70])
-                        generatorSkeleton.add(generator1)
+                    # if cont == 1:
+                    #     generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165])
+                    #     generatorSkeleton.add(generator1)
+                    # if cont == 2:
+                    #     generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70])
+                    #     generatorSkeleton.add(generator1)
 
-                    if cont == 2:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 2160, 110, 43])
-                        generatorSkeleton.add(generator1)
                     
                     cont += 1
 

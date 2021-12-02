@@ -5,10 +5,10 @@ class Generator(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(directionImg)
         self.rect = self.image.get_rect()
-        self.rect.y=pos[1]
-        self.rect.x=pos[0]
+        self.rect.y=pos[1]*1
+        self.rect.x=pos[0]*1
         self.healt=healt
-        self.path = path
+        self.path = path*1
 
 
 class Magic_Book(pygame.sprite.Sprite):
@@ -67,7 +67,7 @@ class Bullet(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self,animations,direction,action,posX,posY,healt):
+    def __init__(self,animations,direction,action,posX,posY,healt,vel):
         pygame.sprite.Sprite.__init__(self)
         self.animations=animations
         self.action=action
@@ -77,6 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.y=posY
         self.rect.x=posX
+        self.baseVel=vel
         self.velx=0
         self.vely=0
         self.puntos=0
@@ -95,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.velx
         self.rigidBody.rect.x += self.velx #This is new
 
-        print(self.rect.x, self.rect.y)
+        # print(self.rect.x, self.rect.y)
                 
         if self.rigidBody.rect.right > ANCHO: #This is new
             self.rigidBody.rect.right = ANCHO
@@ -190,6 +191,7 @@ class Enemy(pygame.sprite.Sprite):
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
 
+        # print(self.rect,self.limit)
         
         self.rect.x += self.velx
         self.rect.y += self.vely
