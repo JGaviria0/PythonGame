@@ -197,6 +197,7 @@ def parserColi(initialX, initialY):
     bloques=pygame.sprite.Group()
 
     treeH = pygame.image.load('img/Tree.png')
+    tree2 = pygame.image.load('img/tree2.png')
     treedown = pygame.image.load('img/treedown.png')
     treedown2 = pygame.image.load('img/treedown2.png')
     treedown3 = pygame.image.load('img/treedown3.png')
@@ -235,6 +236,7 @@ def parserColi(initialX, initialY):
     heapPosition = []
     waterPosition = []
     shipPosition = []
+    tree2Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -281,6 +283,8 @@ def parserColi(initialX, initialY):
                     waterPosition.append([pixelRow, pixelCol])
                 if col == "31":
                     shipPosition.append([pixelRow, pixelCol])
+                if col == "32":
+                    tree2Position.append([pixelRow, pixelCol])
 
                 pixelRow += 10
             pixelCol += 10
@@ -386,6 +390,12 @@ def parserColi(initialX, initialY):
         
         for eachtree in shipPosition:
             aux = ship
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in tree2Position:
+            aux = tree2
             tam = [aux.get_height(), aux.get_height()]
             b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
