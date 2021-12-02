@@ -80,6 +80,9 @@ if __name__=='__main__':
     book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
 
+    book2 = Magic_Book((600,150),character['Magic_Book'],'Destruir esto te puede ayudar!')
+    books.add(book2)
+
     f_posx= 0
     f_velx= -5
     f_posy= 0
