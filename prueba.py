@@ -99,6 +99,7 @@ def parserMap(initialX, initialY):
         initialY = 0
     grass = pygame.image.load('img/Grass.png')
     dirtBrown = pygame.image.load('img/Dirt.png')
+    water2 = pygame.image.load('img/water2.png')
     stone1 = pygame.image.load('img/Stone1.png')
     stone2 = pygame.image.load('img/Stone2.png')
     plant = pygame.image.load('img/plant.png')
@@ -120,6 +121,7 @@ def parserMap(initialX, initialY):
     bookPosition = []
     gunPosition = []
     treedown3Position = []
+    water2Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -153,6 +155,8 @@ def parserMap(initialX, initialY):
                     stone2Position.append([pixelRow, pixelCol])
                 if col == "19": 
                     treedown3Position.append([pixelRow, pixelCol])
+                if col == "30":
+                    water2Position.append([pixelRow, pixelCol])
                 pixelRow += 10
 
             pixelCol += 10
@@ -184,6 +188,9 @@ def parserMap(initialX, initialY):
         
         for eachtree in treedown3Position:
             pantalla.blit(treedown3, (eachtree[0], eachtree[1]))
+        
+        for eachtree in water2Position:
+            pantalla.blit(water2, (eachtree[0], eachtree[1]))
 
 def parserColi(initialX, initialY):
 
