@@ -330,7 +330,6 @@ def parserSkeletonGenerator(initialX, initialY):
         for row in csv_reader:
             for col in row:
                 if col == "10":
-                    print(cont)
                     if cont == 0:
                         print(pixelRow, pixelCol)
                         generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165])
