@@ -17,6 +17,7 @@ def getSprites(direccion,scale=1.5):
 character = {
     'Magic_Book':getSprites('Magic_Book'),
     'Knife':getSprites('Knife'),
+    'Beer':getSprites('Beer'),
     'Principal_Character': {
         'Down': {
             'Attack':getSprites('Principal_Character/Down/Attack1'), 

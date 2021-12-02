@@ -20,6 +20,9 @@ def getOppositeDirection(enemyDirection,playerDirection):
           
 if __name__=='__main__':
     pygame.init()
+    pygame.mixer.init()
+    sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
+    pygame.mixer.Sound.play(sonido_fondo)
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
     pygame.font.init() 
                   
@@ -52,29 +55,28 @@ if __name__=='__main__':
     # Group of Knife
     knifes = pygame.sprite.Group()
 
+    # Group of beers
+    beers = pygame.sprite.Group()
+
+    # Group of hearts
+    hearts = pygame.sprite.Group()
+
+    heart1= Heart((300,300), './heart/potion.png')
+    hearts.add(heart1)
+
+
+
+    beer1= Beer((200,200), character['Beer'])
+    beers.add(beer1)
 
     generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
-
-    # for g in generatorSkeleton: 
-    #     print(g.path)
-
     generatorGreen = pygame.sprite.Group()
 
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,10)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,10,20)
     players.add(player1)
-
-
-    # enemy1=Enemy(character['Green_Enemy'], 'Left', 'Attack', 0, 0, 100, True,15,700,400,'Green_Enemy')
-    # enemies.add(enemy1)
-    
-    # enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
-    # enemies.add(enemy2)
-
-    # enemy3=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
-    # enemies.add(enemy3)
 
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
@@ -147,10 +149,10 @@ if __name__=='__main__':
                 if event.key == pygame.K_k and player1.action!='Attack'and player1.action!='Death':
                     ls_col=pygame.sprite.spritecollide(player1.rigidBody, enemies, False)  # If we attack
                     for enemy in ls_col:
-                        enemy.healt-=20
+                        enemy.healt-=player1.damage
                         enemy.actualPositionOfAnimation=0
                         enemy.action='Hurt'
-                        if enemy.healt==0:
+                        if enemy.healt<=0:
                             enemy.action='Death'
                             
 
@@ -296,7 +298,7 @@ if __name__=='__main__':
                             enemy.action='Attack'
                             if enemy.name =='Green_Enemy':
                                 enemy.direction =getOppositeDirection(enemy.direction,player1.direction)
-                            if enemy.healt==0:
+                            if enemy.healt<=0:
                                 enemies.remove(enemy)
                         
                         player1.action='Idle'
@@ -306,7 +308,27 @@ if __name__=='__main__':
                     if player1.actualPositionOfAnimation==3:
                         players.remove(player1)
                     
+
+        # Check if we touch a heart
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, hearts, False)
+        for heart in ls_col:
+            player1.healt+=10
+            if player1.healt>100:
+                player1.healt=100
+            hearts.remove(heart)
+
+        # Check if we touch a Beer
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, beers, False)
+        for beer in ls_col:
+            player1.baseVel+=5
+            beers.remove(beer)
    
+        #Check if we touch a Knife
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, knifes, False)
+        for knife in ls_col:
+            player1.damage+=20
+            knifes.remove(knife)
+
         # Check if we touch a book 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, books, False)
         for book in ls_col:
@@ -343,11 +365,14 @@ if __name__=='__main__':
                     generator.path[0]+=f_velx
                     generator.path[1]+=f_velx
                 
-                # for generator in generatorGreen:
-                #     generator.rect.x+=f_velx
-                #     generator.path[0]+=f_velx
-                #     generator.path[1]+=f_velx
+                for knife in knifes:
+                    knife.rect.x+=f_velx
 
+                for beer in beers:
+                    beer.rect.x+=f_velx
+
+                for heart in hearts:
+                    heart.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -374,10 +399,13 @@ if __name__=='__main__':
                     generator.rect.x-=f_velx
                     generator.path[0]-=f_velx
                     generator.path[1]-=f_velx
-                
-                # for generator in generatorGreen:
-                #     generator.rect.x-=f_velx
-                    
+                for knife in knifes:
+                    knife.rect.x-=f_velx
+
+                for beer in beers:
+                    beer.rect.x-=f_velx
+                for heart in hearts:
+                    heart.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -405,9 +433,17 @@ if __name__=='__main__':
                     generator.rect.y+=f_vely
                     generator.path[2]+=f_vely
                     generator.path[3]+=f_vely
+
+                for knife in knifes:
+                    knife.rect.y+=f_vely
+                for beer in beers:
+                    beer.rect.y+=f_vely
                 
-                # for generator in generatorGreen:
-                #     generator.rect.y+=f_vely
+                for heart in hearts:
+                    heart.rect.y+=f_vely
+        
+        
+        
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -435,15 +471,19 @@ if __name__=='__main__':
                     generator.rect.y-=f_vely
                     generator.path[2]-=f_vely
                     generator.path[3]-=f_vely
-                
+                for knife in knifes:
+                    knife.rect.y-=f_vely
 
-                # for generator in generatorGreen:
-                #     generator.rect.y-=f_vely
+                for beer in beers:
+                    beer.rect.y-=f_vely
 
+                for heart in hearts:
+                    heart.rect.y-=f_vely
 
         pygame.display.flip()
 
         #Update elements
+        beers.update()
         players.update()
         knifes.update()
         bullets.update()
@@ -455,6 +495,7 @@ if __name__=='__main__':
         parserMap(f_posx,f_posy,pantalla)
 
         # Draw Elements
+        beers.draw(pantalla)
         bullets.draw(pantalla)
         players.draw(pantalla)
         enemies.draw(pantalla)
@@ -462,6 +503,7 @@ if __name__=='__main__':
         books.draw(pantalla)
         knifes.draw(pantalla)
         generatorSkeleton.draw(pantalla)
+        hearts.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
