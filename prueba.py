@@ -214,6 +214,7 @@ def parserColi(initialX, initialY):
     house6 = pygame.image.load('img/house6.png')
     heap = pygame.image.load('img/heap.png')
     water = pygame.image.load('img/water.png')
+    ship = pygame.image.load('img/ship.png')
 
     treesPosition = []
     treedownPosition = []
@@ -233,6 +234,7 @@ def parserColi(initialX, initialY):
     house6Position = []
     heapPosition = []
     waterPosition = []
+    shipPosition = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -277,6 +279,8 @@ def parserColi(initialX, initialY):
                     heapPosition.append([pixelRow, pixelCol])
                 if col == "29":
                     waterPosition.append([pixelRow, pixelCol])
+                if col == "31":
+                    shipPosition.append([pixelRow, pixelCol])
 
                 pixelRow += 10
             pixelCol += 10
@@ -376,6 +380,12 @@ def parserColi(initialX, initialY):
         
         for eachtree in waterPosition:
             aux = water
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in shipPosition:
+            aux = ship
             tam = [aux.get_height(), aux.get_height()]
             b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
