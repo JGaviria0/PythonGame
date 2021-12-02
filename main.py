@@ -237,7 +237,7 @@ if __name__=='__main__':
             for generator in generatorSkeleton:
                 # print(generator.path)
                 enemyGeneration = random.choice(['Skeleton_Enemy'])
-                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path)
+                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
                 enemies.add(enemyn)
 
             # print("pasaron 10s")
