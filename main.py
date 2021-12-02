@@ -4,6 +4,17 @@ import csv
 from models import *
 from map import *
 
+
+def getOppositeDirection(enemyDirection,playerDirection):
+    if player1.direction=='Right':
+        return 'Left'
+    if player1.direction=='Left':
+        return 'Right'
+    if player1.direction=='Up':
+        return 'Down'
+    if player1.direction=='Down':
+        return 'Up'
+
           
 if __name__=='__main__':
     pygame.init()
@@ -44,11 +55,12 @@ if __name__=='__main__':
     enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,200,300,'Skeleton_Enemy')
     enemies.add(enemy2)
 
-    enemy2=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
-    enemies.add(enemy2)
+    enemy3=Enemy(character['Skeleton_Enemy'], 'Right', 'Idle', 0, 0, 100, True,15,60,300,'Skeleton_Enemy')
+    enemies.add(enemy3)
 
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
+    
 
     book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
@@ -165,6 +177,7 @@ if __name__=='__main__':
             # Skeleton Enemy
             if enemy.name == "Skeleton_Enemy" and player1.action!='Death':
                 if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' :
+                    enemy.direction = getOppositeDirection(enemy.direction,player1.direction)
                     if enemy.action!='Attack':
                         enemy.actualPositionOfAnimation=0
                     enemy.action='Attack'
@@ -174,7 +187,7 @@ if __name__=='__main__':
                         player1.action='Hurt'
 
                     player1.healt-=0.2
-                    print(player1.healt)
+                    # print(player1.healt)
 
                     if player1.healt<=0:
                         player1.action='Death'
@@ -184,6 +197,7 @@ if __name__=='__main__':
                 elif enemy.action!='Idle' and enemy.action!='Hurt' and enemy.action!='Death':
                     enemy.actualPositionOfAnimation=0
                     enemy.action='Idle'
+                    enemy.direction=player1.direction
                     player1.actualPositionOfAnimation=0
             
             if player1.healt<=0:
@@ -195,7 +209,7 @@ if __name__=='__main__':
         #Check if a bullet shoot me
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
         for bullet in ls_col:
-            print(player1.healt)
+            # print(player1.healt)
             player1.healt-=5
             if player1.action!='Hurt':
                 player1.action='Hurt'
@@ -234,8 +248,8 @@ if __name__=='__main__':
         # Check if we touch a book 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, books, False)
         for book in ls_col:
-            myfont =pygame.font.Font(None,32)
-            txt_info=myfont.render(book.description, True , ROSADO)
+            myfont =pygame.font.Font('./Storytime.ttf',30)
+            txt_info=myfont.render(book.description, True , VERDE)
             pantalla.blit(txt_info, (5,5))
             
             
