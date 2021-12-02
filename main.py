@@ -234,6 +234,8 @@ if __name__=='__main__':
                         ls_col=pygame.sprite.spritecollide(player1.rigidBody, enemies, False)  # If we attack
                         for enemy in ls_col:
                             enemy.action='Attack'
+                            if enemy.name =='Green_Enemy':
+                                enemy.direction =getOppositeDirection(enemy.direction,player1.direction)
                             if enemy.healt==0:
                                 enemies.remove(enemy)
                         
@@ -275,6 +277,9 @@ if __name__=='__main__':
 
                 for book in books:
                     book.rect.x += f_velx
+                
+                for bullet in bullets:
+                    bullet.rect.x+=f_velx
 
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
@@ -292,6 +297,8 @@ if __name__=='__main__':
                 
                 for book in books:
                     book.rect.x -= f_velx
+                for bullet in bullets:
+                    bullet.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -309,6 +316,9 @@ if __name__=='__main__':
                 
                 for book in books:
                     book.rect.y+= f_vely
+
+                for bullet in bullets:
+                    bullet.rect.y+=f_vely
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -325,6 +335,10 @@ if __name__=='__main__':
                 
                 for book in books:
                     book.rect.y -= f_vely
+                
+                
+                for bullet in bullets:
+                    bullet.rect.y-=f_vely
 
 
         pygame.display.flip()
