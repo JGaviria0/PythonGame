@@ -222,9 +222,9 @@ if __name__=='__main__':
                 enemy.actualPositionOfAnimation=0
 
 
-        if seconds >= 10000:
+        if seconds >= 10000 and len(enemies) < 1:
 
-            seconds = 0
+            second = 0
 
             for generator in generatorSkeleton:
                 print(generator.path)
@@ -310,6 +310,8 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.x += f_velx
+                    e.limit[0] += f_velx
+                    e.limit[1] += f_velx
 
                 for book in books:
                     book.rect.x += f_velx
@@ -336,6 +338,8 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.x -= f_velx
+                    e.limit[0] -= f_velx
+                    e.limit[1] -= f_velx
                 
                 for book in books:
                     book.rect.x -= f_velx
@@ -362,6 +366,8 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.y += f_vely
+                    e.limit[2] += f_vely
+                    e.limit[3] += f_vely
                 
                 for book in books:
                     book.rect.y+= f_vely
@@ -387,6 +393,8 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.y -= f_vely
+                    e.limit[2] -= f_vely
+                    e.limit[3] -= f_vely
                 
                 for book in books:
                     book.rect.y -= f_vely

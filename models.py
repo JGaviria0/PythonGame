@@ -94,6 +94,8 @@ class Player(pygame.sprite.Sprite):
         
         self.rect.x += self.velx
         self.rigidBody.rect.x += self.velx #This is new
+
+        print(self.rect.x, self.rect.y)
                 
         if self.rigidBody.rect.right > ANCHO: #This is new
             self.rigidBody.rect.right = ANCHO
@@ -191,13 +193,30 @@ class Enemy(pygame.sprite.Sprite):
         
         self.rect.x += self.velx
         self.rect.y += self.vely
-
         # Limit's control
-        if self.rect.x <= self.limit[0]:
-            self.direction = 'Right'
-            self.velx = 5
-        
-        if self.rect.x >= self.limit[1]:
-            self.direction = 'Left'
-            self.velx = -5
+
+        if self.action == 'Hurt' or self.action == "Attack":
+            self.velx = 0
+            self.vely = 0
+
+        if self.action != "Idle" and self.action != "Attack" and self.action != "Hurt":
+            if self.rect.x <= self.limit[0] and self.direction == 'Left':
+                self.direction = 'Down'
+                self.vely = 5
+                self.velx = 0
+            
+            elif self.rect.y >= self.limit[2]and self.direction == 'Down':
+                self.direction = "Right"
+                self.vely = 0
+                self.velx = 5
+            
+            elif self.rect.x >= self.limit[1]and self.direction == 'Right':
+                self.direction = 'Up'
+                self.velx = 0
+                self.vely = -5
+            
+            elif self.rect.y <= self.limit[3]and self.direction == 'Up':
+                self.direction = 'Left'
+                self.velx = -5
+                self.vely = 0
 

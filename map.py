@@ -332,12 +332,17 @@ def parserSkeletonGenerator(initialX, initialY):
                 if col == "10":
                     print(cont)
                     if cont == 0:
-                        print("Hola")
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 600])
+                        print(pixelRow, pixelCol)
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165])
                         generatorSkeleton.add(generator1)
-                    else:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [0, 600])
+                    if cont == 1:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70])
                         generatorSkeleton.add(generator1)
+
+                    if cont == 2:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 2160, 110, 43])
+                        generatorSkeleton.add(generator1)
+                    
                     cont += 1
 
                 pixelRow += 10
