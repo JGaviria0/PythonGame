@@ -50,15 +50,18 @@ if __name__=='__main__':
     books = pygame.sprite.Group()
 
 
-    generatorSkeleton = parserSkeletonGenerator(0,0)
-    for g in generatorSkeleton: 
-        print(g.path)
+    generatorSkeleton = pygame.sprite.Group()
+    generator1=Generator((2135,45), 100, 'img/Generator1.png', [1660, 2140, 110, 43])
+    generatorSkeleton.add(generator1)
+
+    # for g in generatorSkeleton: 
+    #     print(g.path)
 
     generatorGreen = pygame.sprite.Group()
 
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5)
     players.add(player1)
 
 
@@ -102,7 +105,7 @@ if __name__=='__main__':
                     
                     player1.direction='Right'
                     player1.action='Walk'
-                    player1.velx = 5
+                    player1.velx = player1.baseVel
                 
                  # Left Direction
                 if event.key == pygame.K_a and player1.action!='Attack'and player1.action!='Death':
@@ -111,7 +114,8 @@ if __name__=='__main__':
                     
                     player1.direction='Left'
                     player1.action='Walk'
-                    player1.velx = -5
+                    player1.velx = -player1.baseVel
+                    print("Touched")
                 
                 # Up Direction
                 if event.key == pygame.K_w and player1.action!='Attack'and player1.action!='Death':
@@ -119,7 +123,7 @@ if __name__=='__main__':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Up'
                     player1.action='Walk'
-                    player1.vely = -5
+                    player1.vely = -player1.baseVel
 
                 # Down Direction
                 if event.key == pygame.K_s and player1.action!='Attack'and player1.action!='Death':
@@ -127,7 +131,7 @@ if __name__=='__main__':
                         player1.actualPositionOfAnimation=0
                     player1.direction='Down'
                     player1.action='Walk'
-                    player1.vely = 5
+                    player1.vely = player1.baseVel
                 
                 # Attack
                 if event.key == pygame.K_k and player1.action!='Attack'and player1.action!='Death':
@@ -160,7 +164,11 @@ if __name__=='__main__':
             if enemy.name=='Green_Enemy' and player1.action!='Death':
                 if enemy.actualPositionOfAnimation ==10 or enemy.actualPositionOfAnimation==15:
                     enemy.isAttacking=True
-
+                if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' and enemy.action!='Attack':
+                    enemy.action='Attack'
+                    enemy.actualPositionOfAnimation=0
+                    enemy.velx=0
+                    enemy.vely=0
                 if enemy.isAttacking and enemy.action=='Attack':
                     velxBullet =0
                     velyBullet=0
@@ -222,23 +230,24 @@ if __name__=='__main__':
                 enemy.actualPositionOfAnimation=0
 
 
-        if seconds >= 10000 and len(enemies) < 1:
+        if seconds >= 10000 :
 
-            second = 0
+            seconds = 0
 
             for generator in generatorSkeleton:
-                print(generator.path)
-                enemyn=Enemy(character['Skeleton_Enemy'], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,'Skeleton_Enemy', generator.path)
+                # print(generator.path)
+                enemyGeneration = random.choice(['Skeleton_Enemy'])
+                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path)
                 enemies.add(enemyn)
 
-            print("pasaron 10s")
+            # print("pasaron 10s")
 
         # check if we are hiting a generator
 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, generatorSkeleton, False)
         for generator in ls_col:
             if player1.action == "Attack":
-                print(generator.healt)
+                # print(generator.healt)
                 generator.healt -= 3
             
             if generator.healt <=0:
@@ -319,11 +328,15 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.x+=f_velx
 
-                for generator in generatorSkeleton:
-                    generator.rect.x+=f_velx
+                # for generator in generatorSkeleton:
+                #     generator.rect.x+=f_velx
+                    # generator.path[0]+=f_velx
+                    # generator.path[1]+=f_velx
                 
-                for generator in generatorGreen:
-                    generator.rect.x+=f_velx
+                # for generator in generatorGreen:
+                #     generator.rect.x+=f_velx
+                #     generator.path[0]+=f_velx
+                #     generator.path[1]+=f_velx
 
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
@@ -347,11 +360,14 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.x-=f_velx
                 
-                for generator in generatorSkeleton:
-                    generator.rect.x-=f_velx
+                # for generator in generatorSkeleton:
+                #     generator.rect.x-=f_velx
+                    # generator.path[0]-=f_velx
+                    # generator.path[1]-=f_velx
                 
-                for generator in generatorGreen:
-                    generator.rect.x-=f_velx
+                # for generator in generatorGreen:
+                #     generator.rect.x-=f_velx
+                    
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -375,11 +391,13 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.y+=f_vely
                 
-                for generator in generatorSkeleton:
-                    generator.rect.y+=f_vely
+                # for generator in generatorSkeleton:
+                #     generator.rect.y+=f_vely
+                    # generator.path[2]+=f_vely
+                    # generator.path[3]+=f_vely
                 
-                for generator in generatorGreen:
-                    generator.rect.y+=f_vely
+                # for generator in generatorGreen:
+                #     generator.rect.y+=f_vely
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -403,11 +421,14 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.y-=f_vely
 
-                for generator in generatorSkeleton:
-                    generator.rect.y-=f_vely
+                # for generator in generatorSkeleton:
+                #     generator.rect.y-=f_vely
+                    # generator.path[2]-=f_vely
+                    # generator.path[3]-=f_vely
+                
 
-                for generator in generatorGreen:
-                    generator.rect.y-=f_vely
+                # for generator in generatorGreen:
+                #     generator.rect.y-=f_vely
 
 
         pygame.display.flip()
@@ -436,7 +457,9 @@ if __name__=='__main__':
         healt=myfont.render(str(int(player1.healt)), True , BLANCO)
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
-
+       
+        for generator in generatorSkeleton:
+            print('Generator',generator.rect,generator.path,'Player',player1.rect)
 
 
         reloj.tick(20)
