@@ -51,8 +51,7 @@ if __name__=='__main__':
 
 
     generatorSkeleton = pygame.sprite.Group()
-    generator1=Generator((2135,45), 100, 'img/Generator1.png', [1660, 2140, 110, 43])
-    generatorSkeleton.add(generator1)
+    generatorSkeleton = parserSkeletonGenerator(0,0)
 
     # for g in generatorSkeleton: 
     #     print(g.path)
@@ -61,7 +60,7 @@ if __name__=='__main__':
 
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,10)
     players.add(player1)
 
 
@@ -115,7 +114,6 @@ if __name__=='__main__':
                     player1.direction='Left'
                     player1.action='Walk'
                     player1.velx = -player1.baseVel
-                    print("Touched")
                 
                 # Up Direction
                 if event.key == pygame.K_w and player1.action!='Attack'and player1.action!='Death':
@@ -230,14 +228,14 @@ if __name__=='__main__':
                 enemy.actualPositionOfAnimation=0
 
 
-        if seconds >= 10000 :
+        if seconds >= 10000 and len(enemies) < 5:
 
             seconds = 0
 
             for generator in generatorSkeleton:
                 # print(generator.path)
-                enemyGeneration = random.choice(['Skeleton_Enemy'])
-                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path)
+                enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
+                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
                 enemies.add(enemyn)
 
             # print("pasaron 10s")
@@ -328,10 +326,10 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.x+=f_velx
 
-                # for generator in generatorSkeleton:
-                #     generator.rect.x+=f_velx
-                    # generator.path[0]+=f_velx
-                    # generator.path[1]+=f_velx
+                for generator in generatorSkeleton:
+                    generator.rect.x+=f_velx
+                    generator.path[0]+=f_velx
+                    generator.path[1]+=f_velx
                 
                 # for generator in generatorGreen:
                 #     generator.rect.x+=f_velx
@@ -360,10 +358,10 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.x-=f_velx
                 
-                # for generator in generatorSkeleton:
-                #     generator.rect.x-=f_velx
-                    # generator.path[0]-=f_velx
-                    # generator.path[1]-=f_velx
+                for generator in generatorSkeleton:
+                    generator.rect.x-=f_velx
+                    generator.path[0]-=f_velx
+                    generator.path[1]-=f_velx
                 
                 # for generator in generatorGreen:
                 #     generator.rect.x-=f_velx
@@ -391,10 +389,10 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.y+=f_vely
                 
-                # for generator in generatorSkeleton:
-                #     generator.rect.y+=f_vely
-                    # generator.path[2]+=f_vely
-                    # generator.path[3]+=f_vely
+                for generator in generatorSkeleton:
+                    generator.rect.y+=f_vely
+                    generator.path[2]+=f_vely
+                    generator.path[3]+=f_vely
                 
                 # for generator in generatorGreen:
                 #     generator.rect.y+=f_vely
@@ -421,10 +419,10 @@ if __name__=='__main__':
                 for bullet in bullets:
                     bullet.rect.y-=f_vely
 
-                # for generator in generatorSkeleton:
-                #     generator.rect.y-=f_vely
-                    # generator.path[2]-=f_vely
-                    # generator.path[3]-=f_vely
+                for generator in generatorSkeleton:
+                    generator.rect.y-=f_vely
+                    generator.path[2]-=f_vely
+                    generator.path[3]-=f_vely
                 
 
                 # for generator in generatorGreen:
@@ -458,10 +456,6 @@ if __name__=='__main__':
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
        
-        for generator in generatorSkeleton:
-            print('Generator',generator.rect,generator.path,'Player',player1.rect)
-
-
         reloj.tick(20)
 
      
