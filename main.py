@@ -80,50 +80,55 @@ if __name__=='__main__':
     
 
 
-    heart1= Heart((1800,790), './heart/potion.png')
-    hearts.add(heart1)
 
 
 
-    beer1= Beer((1660,100), character['Beer'])
-    beers.add(beer1)
 
     generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
     generatorGreen = pygame.sprite.Group()
 
 
-
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,10,20)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,20,20)
     players.add(player1)
-
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
-    
 
     book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
 
     book2 = Magic_Book((600,150),character['Magic_Book'],'Destruir esto te puede ayudar!')
     books.add(book2)
+    
 
+    positions = [ [1660,100], [1800,790], [1100, 810], [1200, 100], [680, 1110], [250, 1530], [1270,1440]]
 
-    knife1=Knife((1100,810), character['Knife'])
-    knifes.add(knife1)
+    # Beer
 
-    knife1=Knife((1200,100), character['Knife'])
-    knifes.add(knife1)
+    for i in range(1):
+        position = random.choice(positions)
+        positions.remove(position)
+        beer1= Beer(position, character['Beer'])
+        beers.add(beer1)
+        book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'La cerveza te da alaaaaas.')
+        books.add(book2)
 
-    knife1=Knife((680,1110), character['Knife'])
-    knifes.add(knife1)
+    # potion
+    for i in range(2):
+        position = random.choice(positions)
+        positions.remove(position)
+        knife1=Knife(position, character['Knife'])
+        knifes.add(knife1)
+        book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'Las espadas te dan mas poder.')
+        books.add(book2)
 
-    knife1=Knife((250,1530), character['Knife'])
-    knifes.add(knife1)
-
-    knife1=Knife((1270,1440), character['Knife'])
-    knifes.add(knife1)
-
-
+    for i in range(3):
+        position = random.choice(positions)
+        positions.remove(position)
+        heart1= Heart(position, './heart/potion.png')
+        hearts.add(heart1)
+        book2 = Magic_Book([position[0] + 20, position[1]],character['Magic_Book'],'Las posiones te dan salud.')
+        books.add(book2)
 
     f_posx= 0
     f_velx= -5
@@ -135,6 +140,8 @@ if __name__=='__main__':
     fin=False
     while not fin:
         seconds += reloj.get_time()
+        f_velx = -player1.baseVel
+        f_vely = -player1.baseVel
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -274,15 +281,15 @@ if __name__=='__main__':
                 enemy.actualPositionOfAnimation=0
 
 
-        if seconds >= 10000 and len(enemies) < 5:
+        if seconds >= 10000 and len(enemies) < 40:
 
             seconds = 0
 
-            # for generator in generatorSkeleton:
-            #     # print(generator.path)
-            #     enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
-            #     enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
-            #     enemies.add(enemyn)
+            for generator in generatorSkeleton:
+                # print(generator.path)
+                enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
+                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
+                enemies.add(enemyn)
 
             # print("pasaron 10s")
 

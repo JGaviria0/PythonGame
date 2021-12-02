@@ -169,8 +169,8 @@ def parserColi(initialX, initialY, pantalla):
                     wall2Position.append([pixelRow, pixelCol])
                 # if col == "10": 
                 #     generator1Position.append([pixelRow, pixelCol])
-                # if col == "15": 
-                #     generator2Position.append([pixelRow, pixelCol])
+                if col == "15": 
+                    generator2Position.append([pixelRow, pixelCol])
                 if col == "16": 
                     treedownPosition.append([pixelRow, pixelCol])
                 if col == "17": 
@@ -343,7 +343,26 @@ def parserSkeletonGenerator(initialX, initialY):
                     if cont == 2:
                         generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70])
                         generatorSkeleton.add(generator1)
-
+                    if cont == 3:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [680, 870, 1150, 700])
+                        generatorSkeleton.add(generator1)
+                    if cont == 4:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1240, 1480, 1100, 750])
+                        generatorSkeleton.add(generator1)
+                    if cont == 5:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 1970, 1090, 830])
+                        generatorSkeleton.add(generator1)
+                    if cont == 6:
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [840, 1140, 1660, 1510])
+                        generatorSkeleton.add(generator1)
+                    if cont == 7:
+                        print(pixelRow, pixelCol)
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1140, 1480, 1660, 1510])
+                        generatorSkeleton.add(generator1)
+                    if cont == 8:
+                        print(pixelRow, pixelCol)
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1720, 2030, 1630, 1530])
+                        generatorSkeleton.add(generator1)
                     
                     cont += 1
 
