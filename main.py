@@ -49,6 +49,9 @@ if __name__=='__main__':
     # Group of magic books
     books = pygame.sprite.Group()
 
+    # Group of Knife
+    knifes = pygame.sprite.Group()
+
 
     generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
@@ -82,6 +85,12 @@ if __name__=='__main__':
 
     book2 = Magic_Book((600,150),character['Magic_Book'],'Destruir esto te puede ayudar!')
     books.add(book2)
+
+
+    knife1=Knife((70,200), character['Knife'])
+    knifes.add(knife1)
+
+
 
     f_posx= 0
     f_velx= -5
@@ -436,6 +445,7 @@ if __name__=='__main__':
 
         #Update elements
         players.update()
+        knifes.update()
         bullets.update()
         enemies.update()
         books.update()
@@ -450,6 +460,7 @@ if __name__=='__main__':
         enemies.draw(pantalla)
         blocks.draw(pantalla) 
         books.draw(pantalla)
+        knifes.draw(pantalla)
         generatorSkeleton.draw(pantalla)
 
         # Helth Bar
