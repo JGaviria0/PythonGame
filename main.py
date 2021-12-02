@@ -52,13 +52,22 @@ if __name__=='__main__':
     # Group of Knife
     knifes = pygame.sprite.Group()
 
+    # Group of beers
+    beers = pygame.sprite.Group()
+
+    # Group of hearts
+    hearts = pygame.sprite.Group()
+
+    heart1= Heart((300,300), './heart/potion.png')
+    hearts.add(heart1)
+
+
+
+    beer1= Beer((200,200), character['Beer'])
+    beers.add(beer1)
 
     generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
-
-    # for g in generatorSkeleton: 
-    #     print(g.path)
-
     generatorGreen = pygame.sprite.Group()
 
 
@@ -296,6 +305,20 @@ if __name__=='__main__':
                     if player1.actualPositionOfAnimation==3:
                         players.remove(player1)
                     
+
+        # Check if we touch a heart
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, hearts, False)
+        for heart in ls_col:
+            player1.healt+=10
+            if player1.healt>100:
+                player1.healt=100
+            hearts.remove(heart)
+
+        # Check if we touch a Beer
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, beers, False)
+        for beer in ls_col:
+            player1.baseVel+=5
+            beers.remove(beer)
    
         #Check if we touch a Knife
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, knifes, False)
@@ -341,12 +364,12 @@ if __name__=='__main__':
                 
                 for knife in knifes:
                     knife.rect.x+=f_velx
-                
-                # for generator in generatorGreen:
-                #     generator.rect.x+=f_velx
-                #     generator.path[0]+=f_velx
-                #     generator.path[1]+=f_velx
 
+                for beer in beers:
+                    beer.rect.x+=f_velx
+
+                for heart in hearts:
+                    heart.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -375,10 +398,11 @@ if __name__=='__main__':
                     generator.path[1]-=f_velx
                 for knife in knifes:
                     knife.rect.x-=f_velx
-                
-                # for generator in generatorGreen:
-                #     generator.rect.x-=f_velx
-                    
+
+                for beer in beers:
+                    beer.rect.x-=f_velx
+                for heart in hearts:
+                    heart.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -408,10 +432,12 @@ if __name__=='__main__':
                     generator.path[3]+=f_vely
 
                 for knife in knifes:
-                    knife.rect.x+=f_vely
+                    knife.rect.y+=f_vely
+                for beer in beers:
+                    beer.rect.y+=f_vely
                 
-                # for generator in generatorGreen:
-                #     generator.rect.y+=f_vely
+                for heart in hearts:
+                    heart.rect.y+=f_vely
         
         
         
@@ -443,15 +469,18 @@ if __name__=='__main__':
                     generator.path[2]-=f_vely
                     generator.path[3]-=f_vely
                 for knife in knifes:
-                    knife.rect.x-=f_vely
+                    knife.rect.y-=f_vely
 
-                # for generator in generatorGreen:
-                #     generator.rect.y-=f_vely
+                for beer in beers:
+                    beer.rect.y-=f_vely
 
+                for heart in hearts:
+                    heart.rect.y-=f_vely
 
         pygame.display.flip()
 
         #Update elements
+        beers.update()
         players.update()
         knifes.update()
         bullets.update()
@@ -463,6 +492,7 @@ if __name__=='__main__':
         parserMap(f_posx,f_posy,pantalla)
 
         # Draw Elements
+        beers.draw(pantalla)
         bullets.draw(pantalla)
         players.draw(pantalla)
         enemies.draw(pantalla)
@@ -470,6 +500,7 @@ if __name__=='__main__':
         books.draw(pantalla)
         knifes.draw(pantalla)
         generatorSkeleton.draw(pantalla)
+        hearts.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
