@@ -29,6 +29,9 @@ if __name__=='__main__':
     lim_movAba = 550
     lim_movArr = 50
 
+    # Healt Icon
+    healtIcon=pygame.image.load('./icon/heart.png')
+
     # Group Of Players 
     players=pygame.sprite.Group()
 
@@ -186,10 +189,12 @@ if __name__=='__main__':
                         player1.actualPositionOfAnimation=0
                         player1.action='Hurt'
 
-                    player1.healt-=0.2
-                    # print(player1.healt)
+                    if player1.action!='Death':
+                        player1.healt-=0.2
+               
 
                     if player1.healt<=0:
+                        player1.healt=0
                         player1.action='Death'
                         player1.actualPositionOfAnimation=0
                         enemy.action='Idle'
@@ -210,11 +215,13 @@ if __name__=='__main__':
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
         for bullet in ls_col:
             # print(player1.healt)
-            player1.healt-=5
+            if player1.action!='Death':
+                player1.healt-=5
             if player1.action!='Hurt':
                 player1.action='Hurt'
                 player1.actualPositionOfAnimation=0
             if player1.healt<=0:
+                player1.healt=0
                 player1.actualPositionOfAnimation=0
                 player1.action='Death'
             bullets.remove(bullet)
@@ -358,6 +365,13 @@ if __name__=='__main__':
         enemies.draw(pantalla)
         blocks.draw(pantalla) 
         books.draw(pantalla)
+
+        # Helth Bar
+        pantalla.blit(healtIcon, [20,560])
+        myfont =pygame.font.Font('./Storytime.ttf',25)
+        healt=myfont.render(str(int(player1.healt)), True , BLANCO)
+        pantalla.blit(healt, (50,560))
+        pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
 
 
         reloj.tick(20)
