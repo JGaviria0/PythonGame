@@ -18,6 +18,7 @@ character = {
     'Magic_Book':getSprites('Magic_Book'),
     'Knife':getSprites('Knife'),
     'Beer':getSprites('Beer'),
+    'Water':getSprites('Water'),
     'Principal_Character': {
         'Down': {
             'Attack':getSprites('Principal_Character/Down/Attack1'), 

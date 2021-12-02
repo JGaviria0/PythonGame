@@ -58,6 +58,13 @@ if __name__=='__main__':
     # Group of hearts
     hearts = pygame.sprite.Group()
 
+    #Group of water
+    waters = pygame.sprite.Group()
+
+    water1 = Water((350,300), character['Water'])
+    waters.add(water1)
+
+
     heart1= Heart((300,300), './heart/potion.png')
     hearts.add(heart1)
 
@@ -370,6 +377,10 @@ if __name__=='__main__':
 
                 for heart in hearts:
                     heart.rect.x+=f_velx
+
+
+                for water in waters:
+                    water.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -403,6 +414,9 @@ if __name__=='__main__':
                     beer.rect.x-=f_velx
                 for heart in hearts:
                     heart.rect.x-=f_velx
+                
+                for water in waters:
+                    water.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -438,6 +452,9 @@ if __name__=='__main__':
                 
                 for heart in hearts:
                     heart.rect.y+=f_vely
+                
+                for water in waters:
+                    water.rect.y+=f_vely
         
         
         
@@ -477,6 +494,11 @@ if __name__=='__main__':
                 for heart in hearts:
                     heart.rect.y-=f_vely
 
+                
+                for water in waters:
+                    water.rect.y-=f_vely
+        
+
         pygame.display.flip()
 
         #Update elements
@@ -487,6 +509,7 @@ if __name__=='__main__':
         enemies.update()
         books.update()
         generatorSkeleton.update()
+        waters.update()
 
         pantalla.fill(NEGRO)
         parserMap(f_posx,f_posy,pantalla)
@@ -501,6 +524,7 @@ if __name__=='__main__':
         knifes.draw(pantalla)
         generatorSkeleton.draw(pantalla)
         hearts.draw(pantalla)
+        waters.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
