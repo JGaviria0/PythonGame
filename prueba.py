@@ -197,12 +197,16 @@ def parserColi(initialX, initialY):
     generator2 = pygame.image.load('img/Generator2.png')
     wall1 = pygame.image.load('img/Wall1.png')
     wall2 = pygame.image.load('img/Wall2.png')
+    wall3 = pygame.image.load('img/Wall3.png')
     castle = pygame.image.load('img/castle.png')
     house1 = pygame.image.load('img/house1.png')
     house2 = pygame.image.load('img/house2.png')
     house3 = pygame.image.load('img/house3.png')
     house4 = pygame.image.load('img/house4.png')
     house5 = pygame.image.load('img/house5.png')
+    house6 = pygame.image.load('img/house6.png')
+    heap = pygame.image.load('img/heap.png')
+    water = pygame.image.load('img/water.png')
 
     treesPosition = []
     treedownPosition = []
@@ -212,12 +216,16 @@ def parserColi(initialX, initialY):
     generator2Position = []
     wall1Position = []
     wall2Position = []
+    wall3Position = []
     CastlePosition = []
     house1Position = []
     house2Position = []
     house3Position = []
     house4Position = []
     house5Position = []
+    house6Position = []
+    heapPosition = []
+    waterPosition = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -254,6 +262,14 @@ def parserColi(initialX, initialY):
                     house4Position.append([pixelRow, pixelCol])
                 if col == "25":
                     house5Position.append([pixelRow, pixelCol])
+                if col == "26":
+                    house6Position.append([pixelRow, pixelCol])
+                if col == "27":
+                    wall3Position.append([pixelRow, pixelCol])
+                if col == "28":
+                    heapPosition.append([pixelRow, pixelCol])
+                if col == "29":
+                    waterPosition.append([pixelRow, pixelCol])
 
                 pixelRow += 10
             pixelCol += 10
@@ -264,15 +280,21 @@ def parserColi(initialX, initialY):
             bloques.add(b1)
         
         for eachtree in treedownPosition:
-            b1 = Bloque ([50,61], eachtree, treedown)
+            aux = treedown
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
         
         for eachtree in treedown2Position:
-            b1 = Bloque ([50,61], eachtree, treedown2)
+            aux = treedown2
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
 
         for eachtree in treedown3Position:
-            b1 = Bloque ([50,61], eachtree, treedown3)
+            aux = treedown3
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
 
         for eachtree in generator1Position:
@@ -289,6 +311,12 @@ def parserColi(initialX, initialY):
         
         for eachtree in wall2Position:
             b1 = Bloque ([10,30], eachtree, wall2)
+            bloques.add(b1)
+        
+        for eachtree in wall3Position:
+            aux = wall3
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
         
         for eachtree in CastlePosition:
@@ -323,6 +351,24 @@ def parserColi(initialX, initialY):
         
         for eachtree in house5Position:
             aux = house5
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in house6Position:
+            aux = house6
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in heapPosition:
+            aux = heap
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Bloque (tam, eachtree, aux)
+            bloques.add(b1)
+        
+        for eachtree in waterPosition:
+            aux = water
             tam = [aux.get_height(), aux.get_height()]
             b1 = Bloque (tam, eachtree, aux)
             bloques.add(b1)
