@@ -20,9 +20,15 @@ def getOppositeDirection(enemyDirection,playerDirection):
           
 if __name__=='__main__':
     pygame.init()
+
+
+
+    
     pygame.mixer.init()
     sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
     pygame.mixer.Sound.play(sonido_fondo)
+   
+
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
     pygame.font.init() 
                   
