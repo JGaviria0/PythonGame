@@ -234,7 +234,7 @@ if __name__=='__main__':
         # Check if we touch a book 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, books, False)
         for book in ls_col:
-            myfont =pygame.font.Font(None,32)
+            myfont =pygame.font.Font('./Storytime.ttf',30)
             txt_info=myfont.render(book.description, True , ROSADO)
             pantalla.blit(txt_info, (5,5))
             
