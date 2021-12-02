@@ -47,6 +47,16 @@ if __name__=='__main__':
     # Group of magic books
     books = pygame.sprite.Group()
 
+    # Group of gerator Skeleton
+    generatorSkeleton = pygame.sprite.Group()
+
+    # Group of generator Green
+    generatorGreen = pygame.sprite.Group()
+
+
+    generator1=Generator((200,200), 100, './img/generator1.png')
+    generatorSkeleton.add(generator1)
+
 
     player1=Player(character['Principal_Character'],'Down','Idle',50,50,100)
     players.add(player1)
@@ -355,6 +365,7 @@ if __name__=='__main__':
         bullets.update()
         enemies.update()
         books.update()
+        generatorSkeleton.update()
 
         pantalla.fill(NEGRO)
         parserMap(f_posx,f_posy,pantalla)
@@ -372,6 +383,10 @@ if __name__=='__main__':
         healt=myfont.render(str(int(player1.healt)), True , BLANCO)
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
+
+
+        # Generators
+        generatorSkeleton.draw(pantalla)
 
 
         reloj.tick(20)
