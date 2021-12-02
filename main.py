@@ -21,9 +21,6 @@ def getOppositeDirection(enemyDirection,playerDirection):
 if __name__=='__main__':
     pygame.init()
 
-
-
-    
     pygame.mixer.init()
     sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
     pygame.mixer.Sound.play(sonido_fondo)
@@ -67,12 +64,28 @@ if __name__=='__main__':
     # Group of hearts
     hearts = pygame.sprite.Group()
 
-    heart1= Heart((300,300), './heart/potion.png')
+    #Group of water
+    waters = pygame.sprite.Group()
+
+    water1 = Water((290,1390), character['Water'])
+    waters.add(water1)
+    water2 = Water((390, 1390), character['Water'])
+    waters.add(water2)
+    water3 = Water((490,1390), character['Water'])
+    waters.add(water3)
+    water4 = Water((590,1390), character['Water'])
+    waters.add(water4)
+    water4 = Water((690,1390), character['Water'])
+    waters.add(water4)
+    
+
+
+    heart1= Heart((1800,790), './heart/potion.png')
     hearts.add(heart1)
 
 
 
-    beer1= Beer((200,200), character['Beer'])
+    beer1= Beer((1660,100), character['Beer'])
     beers.add(beer1)
 
     generatorSkeleton = pygame.sprite.Group()
@@ -95,7 +108,19 @@ if __name__=='__main__':
     books.add(book2)
 
 
-    knife1=Knife((70,200), character['Knife'])
+    knife1=Knife((1100,810), character['Knife'])
+    knifes.add(knife1)
+
+    knife1=Knife((1200,100), character['Knife'])
+    knifes.add(knife1)
+
+    knife1=Knife((680,1110), character['Knife'])
+    knifes.add(knife1)
+
+    knife1=Knife((250,1530), character['Knife'])
+    knifes.add(knife1)
+
+    knife1=Knife((1270,1440), character['Knife'])
     knifes.add(knife1)
 
 
@@ -110,6 +135,7 @@ if __name__=='__main__':
     fin=False
     while not fin:
         seconds += reloj.get_time()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fin=True
@@ -252,11 +278,11 @@ if __name__=='__main__':
 
             seconds = 0
 
-            for generator in generatorSkeleton:
-                # print(generator.path)
-                enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
-                enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
-                enemies.add(enemyn)
+            # for generator in generatorSkeleton:
+            #     # print(generator.path)
+            #     enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
+            #     enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
+            #     enemies.add(enemyn)
 
             # print("pasaron 10s")
 
@@ -379,6 +405,10 @@ if __name__=='__main__':
 
                 for heart in hearts:
                     heart.rect.x+=f_velx
+
+
+                for water in waters:
+                    water.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -412,6 +442,9 @@ if __name__=='__main__':
                     beer.rect.x-=f_velx
                 for heart in hearts:
                     heart.rect.x-=f_velx
+                
+                for water in waters:
+                    water.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -447,6 +480,9 @@ if __name__=='__main__':
                 
                 for heart in hearts:
                     heart.rect.y+=f_vely
+                
+                for water in waters:
+                    water.rect.y+=f_vely
         
         
         
@@ -486,6 +522,11 @@ if __name__=='__main__':
                 for heart in hearts:
                     heart.rect.y-=f_vely
 
+                
+                for water in waters:
+                    water.rect.y-=f_vely
+        
+
         pygame.display.flip()
 
         #Update elements
@@ -496,6 +537,7 @@ if __name__=='__main__':
         enemies.update()
         books.update()
         generatorSkeleton.update()
+        waters.update()
 
         pantalla.fill(NEGRO)
         parserMap(f_posx,f_posy,pantalla)
@@ -510,6 +552,7 @@ if __name__=='__main__':
         knifes.draw(pantalla)
         generatorSkeleton.draw(pantalla)
         hearts.draw(pantalla)
+        waters.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])

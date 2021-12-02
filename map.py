@@ -15,7 +15,7 @@ rock1 = pygame.image.load('img/rock.png')
 rock2 = pygame.image.load('img/rock2.png')
 book = pygame.image.load('img/book.png')
 gun = pygame.image.load('img/gun.gif')
-treedown3 = pygame.image.load('img/treedown3.1.png')
+treedown31 = pygame.image.load('img/treedown3.1.png')
 
 # Colin
 treeH = pygame.image.load('img/Tree.png')
@@ -57,7 +57,7 @@ def parserMap(initialX, initialY, pantalla):
     rock2Position = []
     bookPosition = []
     gunPosition = []
-    treedown3Position = []
+    treedown31Position = []
     water2Position = []
 
     pixelRow = initialX
@@ -91,7 +91,7 @@ def parserMap(initialX, initialY, pantalla):
                 if col == "14": 
                     stone2Position.append([pixelRow, pixelCol])
                 if col == "19": 
-                    treedown3Position.append([pixelRow, pixelCol])
+                    treedown31Position.append([pixelRow, pixelCol])
                 if col == "30":
                     water2Position.append([pixelRow, pixelCol])
                 pixelRow += 10
@@ -123,8 +123,8 @@ def parserMap(initialX, initialY, pantalla):
         for eachtree in gunPosition:
             pantalla.blit(gun, (eachtree[0], eachtree[1]))
         
-        for eachtree in treedown3Position:
-            pantalla.blit(treedown3, (eachtree[0], eachtree[1]))
+        for eachtree in treedown31Position:
+            pantalla.blit(treedown31, (eachtree[0], eachtree[1]))
         
         for eachtree in water2Position:
             pantalla.blit(water2, (eachtree[0], eachtree[1]))
@@ -197,6 +197,7 @@ def parserColi(initialX, initialY, pantalla):
                     heapPosition.append([pixelRow, pixelCol])
                 if col == "29":
                     waterPosition.append([pixelRow, pixelCol])
+                    
                 if col == "31":
                     shipPosition.append([pixelRow, pixelCol])
                 if col == "32":
