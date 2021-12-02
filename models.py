@@ -1,5 +1,15 @@
 from utilities import *
 
+class Generator(pygame.sprite.Sprite):
+    def __init__(self,pos,healt,directionImg):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(directionImg)
+        self.rect = self.image.get_rect()
+        self.rect.y=pos[1]
+        self.rect.x=pos[0]
+        self.healt=healt
+
+
 class Magic_Book(pygame.sprite.Sprite):
     def __init__(self,pos,animations,description):
         pygame.sprite.Sprite.__init__(self)
