@@ -8,7 +8,8 @@ from map import *
 if __name__=='__main__':
     pygame.init()
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
-
+    pygame.font.init() 
+                  
     parserMap(0, 0,pantalla)
     lim_ventana=ANCHO - 2400
     lim_ventanaAlto=ALTO - 1800
@@ -49,7 +50,7 @@ if __name__=='__main__':
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
 
-    book = Magic_Book((200,100),character['Magic_Book'])
+    book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
 
     f_posx= 0
@@ -160,6 +161,7 @@ if __name__=='__main__':
                     bullets.add(bullet)
                     enemy.isAttacking=False
 
+
             # Skeleton Enemy
             if enemy.name == "Skeleton_Enemy" and player1.action!='Death':
                 if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' :
@@ -183,6 +185,10 @@ if __name__=='__main__':
                     enemy.actualPositionOfAnimation=0
                     enemy.action='Idle'
                     player1.actualPositionOfAnimation=0
+            
+            if player1.healt<=0:
+                enemy.action='Idle'
+                enemy.actualPositionOfAnimation=0
 
 
 
@@ -225,6 +231,19 @@ if __name__=='__main__':
                         players.remove(player1)
                     
    
+        # Check if we touch a book 
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, books, False)
+        for book in ls_col:
+            myfont =pygame.font.Font(None,32)
+            txt_info=myfont.render(book.description, True , ROSADO)
+            pantalla.blit(txt_info, (5,5))
+            
+            
+
+
+
+
+        # Slice on screen 
 
         # Right
         if player1.rigidBody.rect.right > lim_movDer:
@@ -240,6 +259,9 @@ if __name__=='__main__':
                 for e in enemies:
                     e.rect.x += f_velx
 
+                for book in books:
+                    book.rect.x += f_velx
+
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -253,6 +275,9 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.x -= f_velx
+                
+                for book in books:
+                    book.rect.x -= f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -267,6 +292,9 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.y += f_vely
+                
+                for book in books:
+                    book.rect.y+= f_vely
         # up
         if player1.rigidBody.rect.top < lim_movArr:
             player1.rigidBody.rect.top = lim_movArr
@@ -280,6 +308,14 @@ if __name__=='__main__':
                 
                 for e in enemies:
                     e.rect.y -= f_vely
+                
+                for book in books:
+                    book.rect.y -= f_vely
+
+
+        pygame.display.flip()
+
+        #Update elements
         players.update()
         bullets.update()
         enemies.update()
@@ -288,7 +324,7 @@ if __name__=='__main__':
         pantalla.fill(NEGRO)
         parserMap(f_posx,f_posy,pantalla)
 
-
+        # Draw Elements
         bullets.draw(pantalla)
         players.draw(pantalla)
         enemies.draw(pantalla)
@@ -296,7 +332,6 @@ if __name__=='__main__':
         books.draw(pantalla)
 
 
-        pygame.display.flip()
         reloj.tick(20)
 
      
