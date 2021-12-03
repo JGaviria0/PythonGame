@@ -20,10 +20,20 @@ def getOppositeDirection(enemyDirection,playerDirection):
 if __name__=='__main__':
     pygame.init()
 
-    # pygame.mixer.init()
-    # sonido_fondo = pygame.mixer.Sound("sounds/background.wav")
-    # pygame.mixer.Sound.play(sonido_fondo)
-    
+    pygame.mixer.init()
+    soundBack = pygame.mixer.Sound("./sounds/background.wav")
+    soundEnd = pygame.mixer.Sound("./sounds/End.wav")
+    soundGameOver = pygame.mixer.Sound("./sounds/GameOver.wav")
+    soundGeneretorDestruction = pygame.mixer.Sound("./sounds/Generator_Destrution.wav")
+    soundHitGreen = pygame.mixer.Sound("./sounds/hit_Green.wav")
+    soundHitPrincipal = pygame.mixer.Sound("./sounds/hit_Principal.wav")
+    soundPickUpBeer = pygame.mixer.Sound("./sounds/PickUpBeer.wav")
+    soundPickUpBook = pygame.mixer.Sound("./sounds/pickUpBook.wav")
+    soundPickUpHealth = pygame.mixer.Sound("./sounds/Health.wav")
+    soundPickUpKnife = pygame.mixer.Sound("./sounds/PickUpKnife.wav")
+
+    pygame.mixer.Sound.play(soundBack)
+
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
     pygame.font.init() 
                   
@@ -185,6 +195,7 @@ if __name__=='__main__':
                 
                 # Attack
                 if event.key == pygame.K_k and player1.action!='Attack'and player1.action!='Death':
+                    pygame.mixer.Sound.play(soundHitPrincipal)
                     ls_col=pygame.sprite.spritecollide(player1.rigidBody, enemies, False)  # If we attack
                     for enemy in ls_col:
                         enemy.healt-=player1.damage
@@ -214,6 +225,7 @@ if __name__=='__main__':
             if enemy.name=='Green_Enemy' and player1.action!='Death':
                 if enemy.actualPositionOfAnimation ==10 or enemy.actualPositionOfAnimation==15:
                     enemy.isAttacking=True
+                    pygame.mixer.Sound.play(soundHitGreen)
                 if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' and enemy.action!='Attack':
                     enemy.action='Attack'
                     enemy.actualPositionOfAnimation=0
@@ -252,8 +264,11 @@ if __name__=='__main__':
                 if enemy.rect.colliderect(player1.rigidBody.rect) and enemy.action!='Hurt' and enemy.action!='Death' :
                     enemy.direction = getOppositeDirection(enemy.direction,player1.direction)
                     if enemy.action!='Attack':
+                        
                         enemy.actualPositionOfAnimation=0
-                    enemy.action='Attack'
+                    enemy.action = 'Attack'
+                    if enemy.actualPositionOfAnimation == 0:
+                        pygame.mixer.Sound.play(soundHitPrincipal)
                     
                     if player1.action!='Hurt':
                         player1.actualPositionOfAnimation=0
@@ -262,7 +277,6 @@ if __name__=='__main__':
                     if player1.action!='Death':
                         player1.healt-=0.2
                
-
                     if int(player1.healt)<=0:
                         player1.healt=0
                         player1.action='Death'
@@ -298,6 +312,7 @@ if __name__=='__main__':
                 generator.healt -= player1.damage
             
             if generator.healt <=0:
+                pygame.mixer.Sound.play(soundGeneretorDestruction)
                 generatorSkeleton.remove(generator)
             
 
@@ -346,15 +361,18 @@ if __name__=='__main__':
         # Check if we touch a heart
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, hearts, False)
         for heart in ls_col:
-            player1.healt+=10
+            player1.healt+=20
             if player1.healt>100:
                 player1.healt=100
             hearts.remove(heart)
+            pygame.mixer.Sound.play(soundPickUpHealth)
 
         # Check if we touch a flag
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, flags, False)
         for flag in ls_col:
             if len(generatorSkeleton)==0 and len(enemies)==0:
+                soundBack.stop()
+                pygame.mixer.Sound.play(soundEnd)
                 texto= "GANASTE, GRAN AVENTURA!"
                 gameOver=True
             else:
@@ -367,12 +385,14 @@ if __name__=='__main__':
         for beer in ls_col:
             player1.baseVel+=5
             beers.remove(beer)
+            pygame.mixer.Sound.play(soundPickUpBeer)
    
         #Check if we touch a Knife
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, knifes, False)
         for knife in ls_col:
             player1.damage+=20
             knifes.remove(knife)
+            pygame.mixer.Sound.play(soundPickUpKnife)
 
         # Check if we touch a book 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, books, False)
@@ -380,6 +400,8 @@ if __name__=='__main__':
             myfont =pygame.font.Font('./Storytime.ttf',30)
             txt_info=myfont.render(book.description, True , VERDE)
             pantalla.blit(txt_info, (5,5))
+            if book.actualPositionOfAnimation == 0:
+                pygame.mixer.Sound.play(soundPickUpBook)
             
         # Slice on screen 
 
@@ -588,6 +610,8 @@ if __name__=='__main__':
 
 
         if player1.action=='Death':
+            soundBack.stop()
+            pygame.mixer.Sound.play(soundGameOver)
             texto='PERDISTE, VUELVE A INTENTARLO'
             gameOver=True
 

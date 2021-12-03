@@ -90,9 +90,6 @@ class Magic_Book(pygame.sprite.Sprite):
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations)
 
-
-
-
 class RigidBody(pygame.sprite.Sprite):
     def __init__(self, pos):
         pygame.sprite.Sprite.__init__(self)
@@ -255,8 +252,6 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.animations[self.direction][self.action][self.actualPositionOfAnimation]
         self.actualPositionOfAnimation+=1
         self.actualPositionOfAnimation= self.actualPositionOfAnimation%len(self.animations[self.direction][self.action])
-
-        # print(self.rect,self.limit)
         
         self.rect.x += self.velx
         self.rect.y += self.vely
