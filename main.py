@@ -6,7 +6,6 @@ from pygame import time
 from models import *
 from map import *
 
-
 def getOppositeDirection(enemyDirection,playerDirection):
     if player1.direction=='Right':
         return 'Left'
@@ -21,15 +20,9 @@ def getOppositeDirection(enemyDirection,playerDirection):
 if __name__=='__main__':
     pygame.init()
 
-<<<<<<< HEAD
-    pygame.mixer.init()
-    sonido_fondo = pygame.mixer.Sound("sounds/background.wav")
-    pygame.mixer.Sound.play(sonido_fondo)
-=======
     # pygame.mixer.init()
     # sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
     # pygame.mixer.Sound.play(sonido_fondo)
->>>>>>> ee58cbb6ec385ee3b75276743793f5801e176cc5
    
 
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
@@ -94,10 +87,6 @@ if __name__=='__main__':
 
     generatorSkeleton = parserSkeletonGenerator(0,0)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ee58cbb6ec385ee3b75276743793f5801e176cc5
     player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5,20)
     players.add(player1)
     blocks = parserColi(0,0,pantalla)
