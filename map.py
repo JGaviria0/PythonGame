@@ -20,6 +20,7 @@ treedown31 = pygame.image.load('img/treedown3.1.png')
 # Colin
 treeH = pygame.image.load('img/Tree.png')
 tree2 = pygame.image.load('img/tree2.png')
+tree4 = pygame.image.load('img/tree4.png')
 treedown = pygame.image.load('img/treedown.png')
 treedown2 = pygame.image.load('img/treedown2.png')
 treedown3 = pygame.image.load('img/treedown3.png')
@@ -153,6 +154,7 @@ def parserColi(initialX, initialY, pantalla):
     waterPosition = []
     shipPosition = []
     tree2Position = []
+    tree4Position = []
 
     pixelRow = initialX
     pixelCol = initialY
@@ -202,6 +204,8 @@ def parserColi(initialX, initialY, pantalla):
                     shipPosition.append([pixelRow, pixelCol])
                 if col == "32":
                     tree2Position.append([pixelRow, pixelCol])
+                if col == "33":
+                    tree4Position.append([pixelRow, pixelCol])
 
                 pixelRow += 10
             pixelCol += 10
@@ -313,6 +317,12 @@ def parserColi(initialX, initialY, pantalla):
         
         for eachtree in tree2Position:
             aux = tree2
+            tam = [aux.get_height(), aux.get_height()]
+            b1 = Block (tam, eachtree, aux)
+            Blocks.add(b1)
+        
+        for eachtree in tree4Position:
+            aux = tree4
             tam = [aux.get_height(), aux.get_height()]
             b1 = Block (tam, eachtree, aux)
             Blocks.add(b1)
