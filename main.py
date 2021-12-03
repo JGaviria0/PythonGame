@@ -86,15 +86,9 @@ if __name__=='__main__':
 
 
 
-
-
-
-    generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
-    generatorGreen = pygame.sprite.Group()
 
-
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,20,100)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5,20)
     players.add(player1)
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
@@ -118,7 +112,7 @@ if __name__=='__main__':
         book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'La cerveza te da alaaaaas.')
         books.add(book2)
 
-    # potion
+    # Knife
     for i in range(2):
         position = random.choice(positions)
         positions.remove(position)
@@ -127,6 +121,7 @@ if __name__=='__main__':
         book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'Las espadas te dan mas poder.')
         books.add(book2)
 
+    # Heaar
     for i in range(3):
         position = random.choice(positions)
         positions.remove(position)
@@ -292,20 +287,17 @@ if __name__=='__main__':
             seconds = 0
 
             for generator in generatorSkeleton:
-                # print(generator.path)
                 enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
                 enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
                 enemies.add(enemyn)
 
-            # print("pasaron 10s")
-
+            
         # check if we are hiting a generator
 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, generatorSkeleton, False)
         for generator in ls_col:
             if player1.action == "Attack":
-                # print(generator.healt)
-                generator.healt -= 3
+                generator.healt -= player1.damage
             
             if generator.healt <=0:
                 generatorSkeleton.remove(generator)
@@ -314,7 +306,6 @@ if __name__=='__main__':
         #Check if a bullet shoot me
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
         for bullet in ls_col:
-            # print(player1.healt)
             if player1.action!='Death':
                 player1.healt-=5
             if player1.action!='Hurt':
