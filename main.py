@@ -6,7 +6,6 @@ from pygame import time
 from models import *
 from map import *
 
-
 def getOppositeDirection(enemyDirection,playerDirection):
     if player1.direction=='Right':
         return 'Left'
