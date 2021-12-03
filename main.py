@@ -21,9 +21,15 @@ def getOppositeDirection(enemyDirection,playerDirection):
 if __name__=='__main__':
     pygame.init()
 
+<<<<<<< HEAD
     pygame.mixer.init()
     sonido_fondo = pygame.mixer.Sound("sounds/background.wav")
     pygame.mixer.Sound.play(sonido_fondo)
+=======
+    # pygame.mixer.init()
+    # sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
+    # pygame.mixer.Sound.play(sonido_fondo)
+>>>>>>> ee58cbb6ec385ee3b75276743793f5801e176cc5
    
 
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
@@ -67,6 +73,11 @@ if __name__=='__main__':
     #Group of water
     waters = pygame.sprite.Group()
 
+    # Group of flag
+    flags = pygame.sprite.Group()
+    flag1= Flag([2100,1600], './icon/flag.png')
+    flags.add(flag1)
+
     water1 = Water((290,1390), character['Water'])
     waters.add(water1)
     water2 = Water((390, 1390), character['Water'])
@@ -81,14 +92,12 @@ if __name__=='__main__':
 
 
 
-
-
-
-    generatorSkeleton = pygame.sprite.Group()
     generatorSkeleton = parserSkeletonGenerator(0,0)
-    generatorGreen = pygame.sprite.Group()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ee58cbb6ec385ee3b75276743793f5801e176cc5
     player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5,20)
     players.add(player1)
     blocks = parserColi(0,0,pantalla)
@@ -97,7 +106,7 @@ if __name__=='__main__':
     book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
 
-    book2 = Magic_Book((600,150),character['Magic_Book'],'Destruir esto te puede ayudar!')
+    book2 = Magic_Book((600,150),character['Magic_Book'],'Debes destruir todas las casas de color negro y los enemigos!')
     books.add(book2)
     
 
@@ -113,7 +122,7 @@ if __name__=='__main__':
         book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'La cerveza te da alaaaaas.')
         books.add(book2)
 
-    # potion
+    # Knife
     for i in range(2):
         position = random.choice(positions)
         positions.remove(position)
@@ -122,6 +131,7 @@ if __name__=='__main__':
         book2 = Magic_Book([position[0] + 30, position[1]],character['Magic_Book'],'Las espadas te dan mas poder.')
         books.add(book2)
 
+    # Heaar
     for i in range(3):
         position = random.choice(positions)
         positions.remove(position)
@@ -138,7 +148,8 @@ if __name__=='__main__':
     reloj=pygame.time.Clock()
     seconds = 0
     fin=False
-    while not fin:
+    gameOver=False
+    while not fin and not gameOver:
         seconds += reloj.get_time()
         f_velx = -player1.baseVel
         f_vely = -player1.baseVel
@@ -286,20 +297,17 @@ if __name__=='__main__':
             seconds = 0
 
             for generator in generatorSkeleton:
-                # print(generator.path)
                 enemyGeneration = random.choice(['Skeleton_Enemy', 'Green_Enemy'])
                 enemyn=Enemy(character[enemyGeneration], 'Left', 'Walk', -5, 0, 100, True, 15,generator.rect.x,generator.rect.y + 20,enemyGeneration, generator.path.copy())
                 enemies.add(enemyn)
 
-            # print("pasaron 10s")
-
+            
         # check if we are hiting a generator
 
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, generatorSkeleton, False)
         for generator in ls_col:
             if player1.action == "Attack":
-                # print(generator.healt)
-                generator.healt -= 3
+                generator.healt -= player1.damage
             
             if generator.healt <=0:
                 generatorSkeleton.remove(generator)
@@ -308,7 +316,6 @@ if __name__=='__main__':
         #Check if a bullet shoot me
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, bullets, False)
         for bullet in ls_col:
-            # print(player1.healt)
             if player1.action!='Death':
                 player1.healt-=5
             if player1.action!='Hurt':
@@ -355,6 +362,17 @@ if __name__=='__main__':
             if player1.healt>100:
                 player1.healt=100
             hearts.remove(heart)
+
+        # Check if we touch a flag
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, flags, False)
+        for flag in ls_col:
+            if len(generatorSkeleton)==0 and len(enemies)==0:
+                texto= "GANASTE, GRAN AVENTURA!"
+                gameOver=True
+            else:
+                myfont =pygame.font.Font('./Storytime.ttf',30)
+                txt_info=myfont.render('Primero destruye todas las casas negras y los enemigos', True , VERDE)
+                pantalla.blit(txt_info, (5,5))
 
         # Check if we touch a Beer
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, beers, False)
@@ -416,6 +434,9 @@ if __name__=='__main__':
 
                 for water in waters:
                     water.rect.x+=f_velx
+
+                for flag in flags:
+                    flag.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -452,6 +473,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.x-=f_velx
+                
+                for flag in flags:
+                    flag.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -490,6 +514,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.y+=f_vely
+                
+                for flag in flags:
+                    flag.rect.y+=f_vely
         
         
         
@@ -532,7 +559,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.y-=f_vely
-        
+
+                for flag in flags:
+                    flag.rect.y-=f_vely
 
         pygame.display.flip()
 
@@ -560,6 +589,7 @@ if __name__=='__main__':
         generatorSkeleton.draw(pantalla)
         hearts.draw(pantalla)
         waters.draw(pantalla)
+        flags.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
@@ -567,8 +597,25 @@ if __name__=='__main__':
         healt=myfont.render(str(int(player1.healt)), True , BLANCO)
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
-       
+
+
+        if player1.action=='Death':
+            texto='PERDISTE, VUELVE A INTENTARLO'
+            gameOver=True
+
         reloj.tick(20)
+    
+    while not fin:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                fin=True
+
+        pantalla.fill(NEGRO)
+        Fuente =pygame.font.Font('./Storytime.ttf',30)
+        img_texto=Fuente.render(texto, True, BLANCO)
+        pantalla.blit(img_texto,[200,300])
+        pygame.display.flip()
+        
 
      
     pygame.quit()

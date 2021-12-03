@@ -323,7 +323,6 @@ def parserColi(initialX, initialY, pantalla):
 def parserSkeletonGenerator(initialX, initialY):
 
     generatorSkeleton = pygame.sprite.Group()
-    generatorGreen= pygame.sprite.Group()
 
     pixelRow = initialX
     pixelCol = initialY
@@ -335,34 +334,34 @@ def parserSkeletonGenerator(initialX, initialY):
             for col in row:
                 if col == "10":
                     if cont == 0:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 2140, 110, 43])
-                        generatorSkeleton.add(generator1)
+                        generator0=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 2140, 110, 43]*1)
+                        generatorSkeleton.add(generator0)
                     if cont == 1:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165])
+                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [200, 655, 400, 165]*1)
                         generatorSkeleton.add(generator1)
                     if cont == 2:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70])
-                        generatorSkeleton.add(generator1)
+                        generator2=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1080, 1500, 400, 70]*1)
+                        generatorSkeleton.add(generator2)
                     if cont == 3:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [680, 870, 1150, 700])
-                        generatorSkeleton.add(generator1)
+                        generator3=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [680, 870, 1150, 700]*1)
+                        generatorSkeleton.add(generator3)
                     if cont == 4:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1240, 1480, 1100, 750])
-                        generatorSkeleton.add(generator1)
+                        generator4=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1240, 1480, 1100, 750]*1)
+                        generatorSkeleton.add(generator4)
                     if cont == 5:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 1970, 1090, 830])
-                        generatorSkeleton.add(generator1)
+                        generator5=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1660, 1970, 1090, 830]*1)
+                        generatorSkeleton.add(generator5)
                     if cont == 6:
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [840, 1140, 1660, 1510])
-                        generatorSkeleton.add(generator1)
+                        generator6=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [840, 1140, 1660, 1510]*1)
+                        generatorSkeleton.add(generator6)
                     if cont == 7:
                         print(pixelRow, pixelCol)
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1140, 1480, 1660, 1510])
-                        generatorSkeleton.add(generator1)
+                        generator7=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1140, 1480, 1660, 1510]*1)
+                        generatorSkeleton.add(generator7)
                     if cont == 8:
                         print(pixelRow, pixelCol)
-                        generator1=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1720, 2030, 1630, 1530])
-                        generatorSkeleton.add(generator1)
+                        generator8=Generator([pixelRow, pixelCol], 100, 'img/Generator1.png', [1720, 2030, 1630, 1530]*1)
+                        generatorSkeleton.add(generator8)
                     
                     cont += 1
 
