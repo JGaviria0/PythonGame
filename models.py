@@ -1,6 +1,14 @@
 from utilities import *
 
 
+class Flag(pygame.sprite.Sprite):
+    def __init__(self,pos,direction):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(direction)
+        self.rect = self.image.get_rect()
+        self.rect.y=pos[1]
+        self.rect.x=pos[0]
+
 class Water(pygame.sprite.Sprite):
     def __init__(self,pos,animations):
         pygame.sprite.Sprite.__init__(self)

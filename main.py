@@ -21,9 +21,9 @@ def getOppositeDirection(enemyDirection,playerDirection):
 if __name__=='__main__':
     pygame.init()
 
-    pygame.mixer.init()
-    sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
-    pygame.mixer.Sound.play(sonido_fondo)
+    # pygame.mixer.init()
+    # sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
+    # pygame.mixer.Sound.play(sonido_fondo)
    
 
     pantalla=pygame.display.set_mode([ANCHO,ALTO])
@@ -67,6 +67,11 @@ if __name__=='__main__':
     #Group of water
     waters = pygame.sprite.Group()
 
+    # Group of flag
+    flags = pygame.sprite.Group()
+    flag1= Flag([2100,1600], './icon/flag.png')
+    flags.add(flag1)
+
     water1 = Water((290,1390), character['Water'])
     waters.add(water1)
     water2 = Water((390, 1390), character['Water'])
@@ -89,7 +94,7 @@ if __name__=='__main__':
     generatorGreen = pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,20,20)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,20,100)
     players.add(player1)
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
@@ -97,7 +102,7 @@ if __name__=='__main__':
     book = Magic_Book((70,120),character['Magic_Book'],'Hola querido viajero,aqui empieza tu aventura')
     books.add(book)
 
-    book2 = Magic_Book((600,150),character['Magic_Book'],'Destruir esto te puede ayudar!')
+    book2 = Magic_Book((600,150),character['Magic_Book'],'Debes destruir todas las casas de color negro y los enemigos!')
     books.add(book2)
     
 
@@ -138,7 +143,8 @@ if __name__=='__main__':
     reloj=pygame.time.Clock()
     seconds = 0
     fin=False
-    while not fin:
+    gameOver=False
+    while not fin and not gameOver:
         seconds += reloj.get_time()
         f_velx = -player1.baseVel
         f_vely = -player1.baseVel
@@ -356,6 +362,17 @@ if __name__=='__main__':
                 player1.healt=100
             hearts.remove(heart)
 
+        # Check if we touch a flag
+        ls_col=pygame.sprite.spritecollide(player1.rigidBody, flags, False)
+        for flag in ls_col:
+            if len(generatorSkeleton)==0 and len(enemies)==0:
+                texto= "GANASTE, GRAN AVENTURA!"
+                gameOver=True
+            else:
+                myfont =pygame.font.Font('./Storytime.ttf',30)
+                txt_info=myfont.render('Primero destruye todas las casas negras y los enemigos', True , VERDE)
+                pantalla.blit(txt_info, (5,5))
+
         # Check if we touch a Beer
         ls_col=pygame.sprite.spritecollide(player1.rigidBody, beers, False)
         for beer in ls_col:
@@ -416,6 +433,9 @@ if __name__=='__main__':
 
                 for water in waters:
                     water.rect.x+=f_velx
+
+                for flag in flags:
+                    flag.rect.x+=f_velx
         # Left
         if player1.rigidBody.rect.left < lim_movIzq:
             player1.rigidBody.rect.left = lim_movIzq
@@ -452,6 +472,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.x-=f_velx
+                
+                for flag in flags:
+                    flag.rect.x-=f_velx
 
         # Down
         if player1.rigidBody.rect.bottom > lim_movAba:
@@ -490,6 +513,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.y+=f_vely
+                
+                for flag in flags:
+                    flag.rect.y+=f_vely
         
         
         
@@ -532,7 +558,9 @@ if __name__=='__main__':
                 
                 for water in waters:
                     water.rect.y-=f_vely
-        
+
+                for flag in flags:
+                    flag.rect.y-=f_vely
 
         pygame.display.flip()
 
@@ -560,6 +588,7 @@ if __name__=='__main__':
         generatorSkeleton.draw(pantalla)
         hearts.draw(pantalla)
         waters.draw(pantalla)
+        flags.draw(pantalla)
 
         # Helth Bar
         pantalla.blit(healtIcon, [20,560])
@@ -567,8 +596,25 @@ if __name__=='__main__':
         healt=myfont.render(str(int(player1.healt)), True , BLANCO)
         pantalla.blit(healt, (50,560))
         pygame.draw.rect(pantalla, ROJO, pygame.Rect(20, 550, player1.healt, 10))
-       
+
+
+        if player1.action=='Death':
+            texto='PERDISTE, VUELVE A INTENTARLO'
+            gameOver=True
+
         reloj.tick(20)
+    
+    while not fin:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                fin=True
+
+        pantalla.fill(NEGRO)
+        Fuente =pygame.font.Font('./Storytime.ttf',30)
+        img_texto=Fuente.render(texto, True, BLANCO)
+        pantalla.blit(img_texto,[200,300])
+        pygame.display.flip()
+        
 
      
     pygame.quit()
