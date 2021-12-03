@@ -263,7 +263,7 @@ if __name__=='__main__':
                         player1.healt-=0.2
                
 
-                    if player1.healt<=0:
+                    if int(player1.healt)<=0:
                         player1.healt=0
                         player1.action='Death'
                         player1.actualPositionOfAnimation=0
@@ -275,7 +275,7 @@ if __name__=='__main__':
                     enemy.direction=player1.direction
                     player1.actualPositionOfAnimation=0
             
-            if player1.healt<=0:
+            if int(player1.healt)<=0:
                 enemy.action='Idle'
                 enemy.actualPositionOfAnimation=0
 
@@ -309,7 +309,7 @@ if __name__=='__main__':
             if player1.action!='Hurt':
                 player1.action='Hurt'
                 player1.actualPositionOfAnimation=0
-            if player1.healt<=0:
+            if int(player1.healt)<=0:
                 player1.healt=0
                 player1.actualPositionOfAnimation=0
                 player1.action='Death'
