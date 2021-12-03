@@ -22,7 +22,7 @@ if __name__=='__main__':
     pygame.init()
 
     pygame.mixer.init()
-    sonido_fondo = pygame.mixer.Sound("sounds/End.wav")
+    sonido_fondo = pygame.mixer.Sound("sounds/background.wav")
     pygame.mixer.Sound.play(sonido_fondo)
    
 
@@ -89,7 +89,7 @@ if __name__=='__main__':
     generatorGreen = pygame.sprite.Group()
 
 
-    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,20,20)
+    player1=Player(character['Principal_Character'],'Down','Idle',50,50,100,5,20)
     players.add(player1)
     blocks = parserColi(0,0,pantalla)
     player1.blocks= blocks
